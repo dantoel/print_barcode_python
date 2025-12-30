@@ -6,10 +6,10 @@
 --Baris kelima berisi password username
 
 ws07
-192.168.1.104
-risproskosong
-ws
-12345
+192.168.12.250
+ppc_reka
+admin-reka
+J@debx132
 
 --COM untuk arduino: (Liat di device manager untuk setiap PC)
 COM3
