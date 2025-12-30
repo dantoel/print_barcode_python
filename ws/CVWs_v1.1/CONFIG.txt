@@ -1,0 +1,15 @@
+--File ini berisi data referensi stasiun kerja
+--Baris pertama berisi kode stasiun
+--Baris kedua berisi IP server (dan Broker Address)
+--Baris ketiga berisi nama database
+--Baris keempat berisi username database
+--Baris kelima berisi password username
+
+ws07
+192.168.1.104
+risproskosong
+ws
+12345
+
+--COM untuk arduino: (Liat di device manager untuk setiap PC)
+COM3

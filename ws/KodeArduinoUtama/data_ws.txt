@@ -1,0 +1,12 @@
+--File ini berisi data referensi stasiun kerja
+--Baris pertama berisi kode stasiun
+--Baris kedua berisi IP server
+--Baris ketiga berisi nama database
+--Baris keempat berisi username database
+--Baris kelima berisi password username
+
+ws07
+202.157.185.247\SQLEXPRESS
+dbCVWS
+cvws
+SmartPoint2021

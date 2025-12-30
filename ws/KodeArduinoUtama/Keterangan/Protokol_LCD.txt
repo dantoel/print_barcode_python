@@ -1,0 +1,19 @@
+===Program Printer===
+ Gagal mencari ID Material 	-> 1 -> Z1
+ Gagal mencari nama Material 	-> 2 -> Z2
+
+ Berhasil mencetak barcode 	-> 3 -> Z3
+ Gagal mencetak barcode		-> 4 -> Z4
+
+ Memindai kartu...		-> 5 -> Z5
+ Kartu RFID tidak terdaftar	-> 6 -> Z6
+
+ Tidak terhububg ker server	-> 7 -> Z7
+
+===Program RFID===
+ Logout dari WS[xx] Login ke WS[yy] -> X1xxyy 
+ Login ke WS[xx]		    -> X2xx
+ Logout dari WS[xx]		    -> X3xx
+
+===Alfabet tidak boleh jadi Kode===
+ADFJMNOS
