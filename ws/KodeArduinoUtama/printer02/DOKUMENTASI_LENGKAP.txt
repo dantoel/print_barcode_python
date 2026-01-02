@@ -1,0 +1,309 @@
+════════════════════════════════════════════════════════════════════════════════
+                     DOKUMENTASI LENGKAP - CETAK BARCODE DATABASE
+════════════════════════════════════════════════════════════════════════════════
+
+📑 DAFTAR ISI:
+1. Ringkasan Sistem
+2. Konfigurasi Database
+3. Cara Menggunakan (5 cara)
+4. Troubleshooting
+5. Technical Details
+
+════════════════════════════════════════════════════════════════════════════════
+1. RINGKASAN SISTEM
+════════════════════════════════════════════════════════════════════════════════
+
+TUJUAN:
+  Mencetak barcode otomatis dari tabel production_schedule database
+  dengan status production_proggress = 'Ready'
+
+DATABASE:
+  Host: 192.168.12.250
+  User: admin-reka
+  Pass: J@debx132
+  Database: reka
+  Tabel: production_schedule
+
+DATA YANG DIAMBIL:
+  - id_product      → Barcode (misal: 686A18101-11)
+  - product         → Nama produk (misal: Distribusi K1/K3)
+  - workshop        → Workstation (misal: WS01)
+
+FILTER:
+  WHERE production_proggress = 'Ready'
+  ORDER BY id_product ASC
+
+PRINTER:
+  - Tipe: Thermal printer (USB)
+  - Driver: Msprintsdk.dll
+  - Format: 1D Barcode
+
+════════════════════════════════════════════════════════════════════════════════
+2. KONFIGURASI DATABASE
+════════════════════════════════════════════════════════════════════════════════
+
+STRUKTUR TABEL PRODUCTION_SCHEDULE (yang digunakan):
+
+  Kolom Digunakan:
+  ├─ id_product           : Identitas produk (menjadi barcode)
+  ├─ product              : Nama produk (label di barcode)
+  ├─ production_proggress : Status (filter = 'Ready')
+  └─ line                 : Production line (label di barcode)
+
+CONTOH DATA:
+  
+  id_product    | product              | production_proggress | line
+  ──────────────┼──────────────────────┼──────────────────────┼──────────
+  686A18101-11  | Distribusi K1/K3     | Ready                | Lt 3 Line 1
+  506E12001     | Panel AC Endwall KCI | Ready                | Line AC Endwall KCI
+  496A18001     | PIDS A               | Ready                | Lt 3 Line 2
+
+SQL QUERY YANG DIJALANKAN:
+
+  SELECT 
+    id_product,
+    product,
+    line,
+    production_proggress
+  FROM production_schedule
+  WHERE production_proggress = 'Ready'
+  ORDER BY id_product ASC
+
+════════════════════════════════════════════════════════════════════════════════
+3. CARA MENGGUNAKAN
+════════════════════════════════════════════════════════════════════════════════
+
+CARA 1: MENU INTERAKTIF (PALING MUDAH) ⭐⭐⭐
+─────────────────────────────────────────
+  1. Double-click: MENU_UTAMA.bat
+  2. Pilih opsi di menu
+  
+  Fitur:
+  - [1] Print semua data Ready
+  - [2] Test print (limit)
+  - [3] Debug mode
+  - [4] Test database
+  - [5] Lihat log
+  - [6] Exit
+
+CARA 2: CETAK LANGSUNG
+─────────────────────
+  1. Double-click: CETAK_DARI_DATABASE.bat
+  
+  Proses:
+  - Koneksi ke database
+  - Query data Ready
+  - Tampilkan daftar
+  - Minta konfirmasi
+  - Print semua
+  - Tampilkan summary
+
+CARA 3: TEST PRINT (LIMIT)
+──────────────────────────
+  1. Double-click: TEST_PRINT.bat
+  2. Pilih:
+     - [1] Test 1 item
+     - [2] Test 5 item
+     - [3] Cetak semua
+
+CARA 4: DEBUG MODE (UNTUK ERROR)
+────────────────────────────────
+  1. Double-click: DEBUG_CETAK.bat
+  
+  Output akan menampilkan:
+  - Step-by-step execution
+  - File existence checks
+  - DLL loading status
+  - Printer initialization
+  - All print commands
+  - Detailed error messages
+
+CARA 5: COMMAND LINE (ADVANCED)
+───────────────────────────────
+  Buka PowerShell/CMD, jalankan:
+  
+  cd C:\ws\KodeArduinoUtama\printer02
+  
+  # Normal
+  python cetak_dari_database.py
+  
+  # Debug
+  python cetak_dari_database.py --debug
+  
+  # Limit 3 item
+  python cetak_dari_database.py --limit 3
+  
+  # Debug + Limit
+  python cetak_dari_database.py --debug --limit 5
+
+════════════════════════════════════════════════════════════════════════════════
+4. TROUBLESHOOTING
+════════════════════════════════════════════════════════════════════════════════
+
+MASALAH 1: Script langsung tutup tanpa error message
+──────────────────────────────────────────────────────
+Penyebab:
+  - Program error tapi tidak terlihat karena langsung exit
+
+Solusi:
+  ✓ Gunakan batch file (.bat) bukan direct .py
+  ✓ Batch file otomatis pause sebelum exit
+  ✓ Anda bisa baca error message
+
+MASALAH 2: "Could not connect to database"
+─────────────────────────────────────────────
+Penyebab:
+  - IP 192.168.12.250 tidak bisa diakses
+  - Username/password salah
+  - Database server down
+
+Solusi:
+  ✓ Double-click: TEST_DATABASE.bat
+  ✓ Cek IP bisa di-ping: ping 192.168.12.250
+  ✓ Verifikasi credentials: admin-reka / J@debx132
+  ✓ Cek database server running
+  ✓ Cek firewall (port 3306)
+
+MASALAH 3: "DLL file not found"
+──────────────────────────────────
+Penyebab:
+  - File Msprintsdk.dll tidak ada di folder printer02
+  - Path DLL salah
+
+Solusi:
+  ✓ Cek file ada: C:\ws\KodeArduinoUtama\printer02\Msprintsdk.dll
+  ✓ Jika tidak ada, copy dari backup atau install printer driver
+  ✓ Cek 32-bit vs 64-bit Python (harus match dengan DLL)
+
+MASALAH 4: "Printer not found / USB port error"
+─────────────────────────────────────────────────
+Penyebab:
+  - Printer tidak terhubung USB
+  - Driver printer tidak install
+  - Port USB error
+
+Solusi:
+  ✓ Cek printer terhubung via USB
+  ✓ Cek Device Manager → Universal Serial Bus Controllers
+  ✓ Install driver printer jika belum
+  ✓ Coba restart printer dan komputer
+
+MASALAH 5: "No data with status 'Ready'"
+──────────────────────────────────────────
+Penyebab:
+  - Data di tabel tidak ada dengan status 'Ready'
+  - Status berbeda (misal 'Pending', 'Processing')
+
+Solusi:
+  ✓ Cek database via phpmyadmin atau MySQL Workbench
+  ✓ Verifikasi status column: production_proggress
+  ✓ Lihat nilai status yang ada di tabel
+  ✓ Update status produk menjadi 'Ready' di database
+
+MASALAH 6: Barcode tidak keluar (printer nyala tapi tidak print)
+─────────────────────────────────────────────────────────────────
+Penyebab:
+  - Printer offline
+  - Kertas habis
+  - Error pada printer
+
+Solusi:
+  ✓ Cek status printer (online/offline)
+  ✓ Cek kertas masih ada
+  ✓ Lihat error message di printer
+  ✓ Jalankan DEBUG_CETAK.bat untuk lihat detail
+
+════════════════════════════════════════════════════════════════════════════════
+5. TECHNICAL DETAILS
+════════════════════════════════════════════════════════════════════════════════
+
+DEPENDENCY (Python Packages):
+  - pymysql              : MySQL connector
+  - ctypes               : Windows DLL loader
+  - Standard library (os, sys, datetime, time, traceback)
+
+STRUKTUR FILE:
+
+  cetak_dari_database.py
+  ├─ import dependencies
+  ├─ DB_CONFIG dictionary
+  ├─ write_log() function
+  ├─ connect_database() function
+  ├─ query_data_siap_cetak() function
+  ├─ cetakBarcode01() function
+  ├─ update_status_setelah_cetak() function
+  ├─ main_loop() function
+  └─ if __name__ == "__main__"
+
+FLOW DIAGRAM:
+
+  [User double-click .bat]
+         ↓
+  [System execute Python]
+         ↓
+  [Connect to Database]
+         ↓
+  [Query production_schedule WHERE status='Ready']
+         ↓
+  [Get list of products]
+         ↓
+  [Ask user confirmation]
+         ↓
+  [Load Msprintsdk.dll]
+         ↓
+  [For each product:
+    - Initialize printer
+    - Print barcode
+    - Update status (optional)
+  ]
+         ↓
+  [Log summary and close]
+         ↓
+  [Show result to user]
+
+LOG FORMAT:
+
+  [YYYY-MM-DD HH:MM:SS] [STATUS] [MESSAGE]
+  
+  Contoh:
+  [2026-01-02 10:15:30] ✓ Koneksi database berhasil
+  [2026-01-02 10:15:31] ✓ Query berhasil, ditemukan 3 data siap cetak
+  [2026-01-02 10:15:32] ✓ Cetak BERHASIL: 686A18101-11 - Distribusi K1/K3
+  [2026-01-02 10:15:33] SUMMARY: Total=3, Berhasil=3, Gagal=0
+
+PRINTER OUTPUT FORMAT:
+
+  SetAlignment(1)        → Alignment left
+  SetSizetext(0, 0)      → Font size normal
+  PrintString()          → Print text (workstation)
+  PrintChargeRow()       → Line break
+  SetSizetext(1, 2)      → Font size larger
+  PrintString()          → Print text (product name)
+  Print1Dbar()           → Print 1D barcode
+  PrintChargeRow()       → 5x line breaks
+  PrintCutpaper(1)       → Cut paper
+  SetClose()             → Close printer
+
+════════════════════════════════════════════════════════════════════════════════
+
+INFORMASI SISTEM:
+
+  Dibuat: 2026-01-02
+  Database Host: 192.168.12.250
+  Database User: admin-reka
+  Database: reka
+  Tabel: production_schedule
+  Barcode Column: id_product
+  Product Column: product
+  Status Filter: production_proggress = 'Ready'
+  Printer Driver: Msprintsdk.dll
+  Log File: cetak_log.txt
+
+════════════════════════════════════════════════════════════════════════════════
+
+CREATED BY: AI Assistant
+LANGUAGE: Python 3.x
+OS: Windows
+VERSION: 1.0
+
+════════════════════════════════════════════════════════════════════════════════

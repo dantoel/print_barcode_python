@@ -1,0 +1,112 @@
+════════════════════════════════════════════════════════════════════════════════
+                           RINGKASAN PERUBAHAN
+════════════════════════════════════════════════════════════════════════════════
+
+📝 TANGGAL PERUBAHAN: 2 Januari 2026
+
+🔄 PERUBAHAN: Workshop → Line
+
+════════════════════════════════════════════════════════════════════════════════
+
+✅ FILE YANG DIUBAH:
+
+1. cetak_dari_database.py
+   ├─ Query SQL: SELECT ... workshop → SELECT ... line
+   ├─ Function parameter: workshop → line
+   ├─ Variable assignment: workshop = row.get('workshop', 'WS01') → line = row.get('line', 'Line 1')
+   ├─ Debug output: Workshop: → Line:
+   └─ String preparation: " " + workshop → " " + line
+
+2. config.ini
+   ├─ WORKSHOP_COLUMN=workshop → LINE_COLUMN=line
+   └─ DEFAULT_WORKSHOP=WS01 → DEFAULT_LINE=Line 1
+
+3. README_CETAK_DATABASE.md
+   └─ Query SQL dan deskripsi data diupdate
+
+4. DOKUMENTASI_LENGKAP.txt
+   ├─ Struktur tabel diupdate
+   ├─ Contoh data diupdate
+   └─ SQL query diupdate
+
+5. FILE_SUMMARY.txt
+   └─ Konfigurasi diupdate
+
+════════════════════════════════════════════════════════════════════════════════
+
+📊 DETAIL PERUBAHAN DATABASE:
+
+SEBELUM:
+────────
+SELECT id_product, product, workshop, production_proggress 
+FROM production_schedule
+WHERE production_proggress = 'Ready'
+
+SESUDAH:
+────────
+SELECT id_product, product, line, production_proggress 
+FROM production_schedule
+WHERE production_proggress = 'Ready'
+
+════════════════════════════════════════════════════════════════════════════════
+
+📋 DATA YANG AKAN DITAMPILKAN DI LABEL:
+
+Sebelum:
+┌──────────────────────┐
+│     WS01             │ ← dari kolom workshop
+│   Distribusi K1/K3   │
+└──────────────────────┘
+
+Sesudah:
+┌──────────────────────┐
+│   Lt 3 Line 1        │ ← dari kolom line
+│   Distribusi K1/K3   │
+└──────────────────────┘
+
+════════════════════════════════════════════════════════════════════════════════
+
+⚙️ DEFAULT VALUE:
+
+Sebelum: workshop = "WS01"
+Sesudah: line = "Line 1"
+
+(Jika kolom kosong di database, akan gunakan default value)
+
+════════════════════════════════════════════════════════════════════════════════
+
+✨ SEMUA FILE SUDAH SIAP DIGUNAKAN
+
+Tidak ada perubahan pada:
+- MENU_UTAMA.bat
+- CETAK_DARI_DATABASE.bat
+- TEST_PRINT.bat
+- DEBUG_CETAK.bat
+- TEST_DATABASE.bat
+- VIEW_LOG.bat
+- PANDUAN_CEPAT.txt
+- README_START_HERE.txt
+- test_database_connection.py
+
+(File-file ini akan secara otomatis menggunakan perubahan dari Python scripts)
+
+════════════════════════════════════════════════════════════════════════════════
+
+🚀 CARA MENGGUNAKAN DENGAN PERUBAHAN BARU:
+
+1. Double-click MENU_UTAMA.bat (sama seperti sebelumnya)
+2. Pilih opsi [1] atau [2]
+3. Script akan otomatis menggunakan kolom 'line' dari database
+4. Label barcode akan menampilkan line name (misal: "Lt 3 Line 1")
+
+════════════════════════════════════════════════════════════════════════════════
+
+📝 CATATAN:
+
+✓ Kompatibel dengan database structure yang baru
+✓ Kolom 'workshop' tidak lagi digunakan
+✓ Kolom 'line' harus ada di tabel production_schedule
+✓ Default value: "Line 1" jika kolom kosong
+✓ Format barcode tidak berubah, hanya label
+
+════════════════════════════════════════════════════════════════════════════════

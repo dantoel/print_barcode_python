@@ -1,0 +1,150 @@
+╔════════════════════════════════════════════════════════════════════════╗
+║                                                                        ║
+║    CETAK BARCODE DARI DATABASE - QUICK START GUIDE                    ║
+║                                                                        ║
+║    Database: 192.168.12.250 (admin-reka)                              ║
+║    Tabel: production_schedule                                         ║
+║    Status: production_proggress = 'Ready'                             ║
+║                                                                        ║
+╚════════════════════════════════════════════════════════════════════════╝
+
+📌 UNTUK PEMULA - Cara Paling Mudah:
+
+  1. Double-click file: MENU_UTAMA.bat
+     (Menu interaktif untuk semua fungsi)
+
+  ATAU
+
+  2. Double-click file: CETAK_DARI_DATABASE.bat
+     (Langsung cetak semua data Ready)
+
+
+📋 DAFTAR FILE BATCH YANG TERSEDIA:
+
+  ✓ MENU_UTAMA.bat
+    └─ Menu pilihan untuk semua fungsi (RECOMMENDED)
+
+  ✓ CETAK_DARI_DATABASE.bat
+    └─ Cetak otomatis semua data dengan status 'Ready'
+
+  ✓ TEST_PRINT.bat
+    └─ Test print dengan limit 1, 5, atau semua item
+
+  ✓ DEBUG_CETAK.bat
+    └─ Mode debug dengan output detail (jika ada error)
+
+  ✓ TEST_DATABASE.bat
+    └─ Test koneksi database (diagnosa masalah)
+
+  ✓ VIEW_LOG.bat
+    └─ Lihat log file cetak_log.txt
+
+
+🐍 FILE PYTHON (jika perlu manual):
+
+  ✓ cetak_dari_database.py
+    └─ Main script cetak dari database
+
+  ✓ test_database_connection.py
+    └─ Test koneksi database
+
+
+📊 CONTOH DATA YANG AKAN DICETAK:
+
+  Dari screenshot Anda, data yang akan dicetak:
+  
+  1. 686A18101     (Distribusi K1/K3)
+  2. 506E12001     (Panel AC Endwall KCI)
+  3. 496A18001     (PIDS A)
+  
+  Format barcode yang dicetak:
+  ┌──────────────────────┐
+  │     WS01             │
+  │   Distribusi K1/K3   │
+  │  ┌────────────────┐  │
+  │  │ 686A18101     │  │  ← Barcode 1D
+  │  └────────────────┘  │
+  └──────────────────────┘
+
+
+🔧 TROUBLESHOOTING:
+
+  ❌ Script langsung tutup tanpa pesan?
+     → Jalankan via .bat file, bukan langsung .py
+
+  ❌ "Database connection failed"?
+     → Jalankan TEST_DATABASE.bat
+     → Cek IP 192.168.12.250 bisa diakses
+     → Verifikasi username/password
+
+  ❌ "DLL file not found"?
+     → Pastikan Msprintsdk.dll ada di folder printer02
+     → Atau install Visual C++ Runtime
+
+  ❌ "Printer not found"?
+     → Cek printer thermal terhubung via USB
+     → Jalankan DEBUG_CETAK.bat untuk detail
+
+  ➡️  Untuk semua masalah: Lihat file cetak_log.txt
+
+
+📝 LOG FILE:
+
+  Lokasi: C:\ws\KodeArduinoUtama\printer02\cetak_log.txt
+  
+  Isi log berisi:
+  - Waktu eksekusi
+  - Status koneksi database
+  - Data yang dicetak
+  - Error (jika ada)
+  
+  View log: Double-click VIEW_LOG.bat
+
+
+⚙️ KONFIGURASI (Jika perlu ubah):
+
+  File: config.ini
+  
+  Jangan ubah kecuali ada perubahan struktur database!
+  
+  Bisa ubah:
+  - HOST=192.168.12.250
+  - USER=admin-reka
+  - PASSWORD=J@debx132
+  - DATABASE=reka
+
+
+✅ WORKFLOW NORMAL:
+
+  1. Double-click MENU_UTAMA.bat
+  2. Pilih opsi [1] PRINT SEMUA DATA READY
+  3. Script akan:
+     → Koneksi ke database
+     → Query data dengan status 'Ready'
+     → Tampilkan daftar item
+     → Minta konfirmasi
+     → Print semua item
+     → Tampilkan summary
+  4. Tekan Enter untuk selesai
+
+
+🎯 QUICK TEST:
+
+  1. Double-click MENU_UTAMA.bat
+  2. Pilih opsi [4] TEST DATABASE
+     (Untuk cek koneksi database)
+  3. Pilih opsi [2] TEST PRINT
+     (Untuk test cetak 1 item dulu)
+  4. Jika berhasil, pilih opsi [1] untuk cetak semua
+
+
+═══════════════════════════════════════════════════════════════════════════
+
+Dibuat: 2026-01-02
+Database: 192.168.12.250 (admin-reka)
+Tabel: production_schedule
+Kolom Barcode: id_product
+Kolom Produk: product
+Filter: production_proggress = 'Ready'
+
+═══════════════════════════════════════════════════════════════════════════
