@@ -20,7 +20,10 @@ DB_CONFIG = {
     'password': 'J@debx132',
     'database': 'ppc_reka',  # Database production
     'charset': 'utf8mb4',
-    'cursorclass': pymysql.cursors.DictCursor
+    'cursorclass': pymysql.cursors.DictCursor,
+    'connect_timeout': 10,  # Timeout 10 detik
+    'read_timeout': 30,  # Read timeout 30 detik
+    'write_timeout': 30  # Write timeout 30 detik
 }
 
 # ============================================================================
