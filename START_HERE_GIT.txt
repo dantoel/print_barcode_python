@@ -1,0 +1,162 @@
+════════════════════════════════════════════════════════════════════════════════
+                    ✅ GIT PANDUAN - SIAP DIGUNAKAN
+════════════════════════════════════════════════════════════════════════════════
+
+🎯 TUJUAN:
+   Membantu Anda pull/update kode dari GitHub ke komputer lain
+
+
+📍 REPOSITORY:
+   URL: https://github.com/dantoel/print_barcode_python
+   Owner: dantoel
+
+
+════════════════════════════════════════════════════════════════════════════════
+👉 UNTUK PEMULA - MULAI DARI SINI:
+════════════════════════════════════════════════════════════════════════════════
+
+Pilih salah satu panduan berdasarkan kebutuhan:
+
+1️⃣  SUPER QUICK (Hanya 3 langkah):
+    Baca bagian "⚡ SUPER QUICK START" di GIT_PANDUAN_SUMMARY.txt
+
+2️⃣  STEP BY STEP (Lengkap dengan penjelasan):
+    Buka file: LANGKAH_DEMI_LANGKAH_GIT.txt
+    (Cocok untuk pemula)
+
+3️⃣  REFERENCE CEPAT (Untuk yang sudah pernah pakai git):
+    Buka file: QUICK_GIT_REFERENCE.txt
+
+4️⃣  LENGKAP DENGAN CONTOH:
+    Buka file: PANDUAN_GIT_BASH.txt
+
+
+════════════════════════════════════════════════════════════════════════════════
+🚀 3 LANGKAH TERCEPAT:
+════════════════════════════════════════════════════════════════════════════════
+
+Untuk pull code di komputer baru:
+
+  LANGKAH 1: Install Git
+  ──────────────────────
+  Buka browser → https://git-scm.com/download/win
+  Download dan install (next-next-next saja)
+
+  LANGKAH 2: Clone Repository
+  ────────────────────────────
+  Buka Git Bash, ketik:
+  git clone https://github.com/dantoel/print_barcode_python.git
+
+  LANGKAH 3: Masuk Folder
+  ────────────────────────
+  cd print_barcode_python
+
+SELESAI! ✅ Kode sudah ada di komputer Anda.
+
+
+════════════════════════════════════════════════════════════════════════════════
+🔄 UNTUK UPDATE KODE:
+════════════════════════════════════════════════════════════════════════════════
+
+Buka Git Bash di folder project, ketik:
+  git pull origin main
+
+Tunggu sebentar, done! Kode update ke versi terbaru.
+
+
+════════════════════════════════════════════════════════════════════════════════
+📂 LOKASI FILE PANDUAN:
+════════════════════════════════════════════════════════════════════════════════
+
+Di root folder project:
+  ├─ QUICK_GIT_REFERENCE.txt        ← Quick command reference
+  ├─ LANGKAH_DEMI_LANGKAH_GIT.txt   ← Step-by-step untuk pemula
+  ├─ GIT_PANDUAN_SUMMARY.txt        ← Summary & index (file ini)
+  └─ (di folder printer02)
+     └─ PANDUAN_GIT_BASH.txt         ← Dokumentasi lengkap
+
+
+════════════════════════════════════════════════════════════════════════════════
+📋 DAFTAR PERINTAH PALING PENTING:
+════════════════════════════════════════════════════════════════════════════════
+
+SETUP (First time):
+  git config --global user.name "Nama Anda"
+  git config --global user.email "email@anda.com"
+  git clone https://github.com/dantoel/print_barcode_python.git
+
+SETIAP HARI:
+  git pull origin main           ← Update kode
+  git status                     ← Cek perubahan
+  git add .                      ← Stage file
+  git commit -m "Pesan"          ← Commit
+  git push origin main           ← Push ke server
+
+
+════════════════════════════════════════════════════════════════════════════════
+❓ FAQ:
+════════════════════════════════════════════════════════════════════════════════
+
+Q: Saya belum pernah pakai git, mulai dari mana?
+A: Baca LANGKAH_DEMI_LANGKAH_GIT.txt dari awal
+
+Q: Saya sudah pernah pakai git, cuma lupa command-nya?
+A: Lihat QUICK_GIT_REFERENCE.txt
+
+Q: Bagaimana cara buat pull request?
+A: Baca PANDUAN_GIT_BASH.txt (Langkah 5: MEMBUAT PULL REQUEST)
+
+Q: Gimana kalau ada error?
+A: Lihat troubleshooting di PANDUAN_GIT_BASH.txt
+
+Q: Folder mana yang harus di-clone?
+A: https://github.com/dantoel/print_barcode_python
+
+
+════════════════════════════════════════════════════════════════════════════════
+🎯 WORKFLOW STANDAR:
+════════════════════════════════════════════════════════════════════════════════
+
+1. Mulai hari:
+   $ git pull origin main          ← Update kode terbaru
+
+2. Kerja (edit file, develop, test):
+   (pakai IDE/editor favorit Anda)
+
+3. Akhir hari:
+   $ git status                    ← Cek file yang berubah
+   $ git add .                     ← Stage semua file
+   $ git commit -m "Deskripsi"     ← Commit dengan pesan
+   $ git push origin main          ← Push ke server
+
+Atau jika pakai branch:
+   $ git push origin nama-branch
+
+
+════════════════════════════════════════════════════════════════════════════════
+✨ TIPS:
+════════════════════════════════════════════════════════════════════════════════
+
+✓ Baca panduan sesuai kebutuhan (jangan baca semua sekaligus)
+✓ Praktik langsung sambil membaca
+✓ Jangan takut untuk experiment
+✓ Commit sering dengan pesan yang jelas
+✓ Pull sebelum mulai, push sebelum pergi
+✓ Jika ada error, baca troubleshooting section
+
+
+════════════════════════════════════════════════════════════════════════════════
+🔗 LINKS:
+════════════════════════════════════════════════════════════════════════════════
+
+Repository: https://github.com/dantoel/print_barcode_python
+Git Download: https://git-scm.com/download/win
+Git Documentation: https://git-scm.com/doc
+GitHub Help: https://docs.github.com
+
+
+════════════════════════════════════════════════════════════════════════════════
+
+Siap? Mulai dari baca salah satu file panduan di atas! 🚀
+
+════════════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,254 @@
+════════════════════════════════════════════════════════════════════════════════
+                    📚 PANDUAN GIT LENGKAP - SUMMARY
+════════════════════════════════════════════════════════════════════════════════
+
+📍 REPOSITORY:
+   URL: https://github.com/dantoel/print_barcode_python
+   Owner: dantoel
+   Main Branch: main
+
+
+════════════════════════════════════════════════════════════════════════════════
+📖 FILE PANDUAN YANG TERSEDIA:
+════════════════════════════════════════════════════════════════════════════════
+
+1. 📄 QUICK_GIT_REFERENCE.txt
+   └─ Quick reference untuk command paling sering digunakan
+   └─ Cocok untuk: Mereka yang sudah pernah pakai git
+   └─ Lokasi: d:\PT. Rekaindo Global Jasa\Program\print_barcode_python\
+
+2. 📄 LANGKAH_DEMI_LANGKAH_GIT.txt
+   └─ Step-by-step lengkap untuk pemula
+   └─ Cocok untuk: Pemula atau yang baru pertama kali
+   └─ Lokasi: d:\PT. Rekaindo Global Jasa\Program\print_barcode_python\
+
+3. 📄 PANDUAN_GIT_BASH.txt
+   └─ Dokumentasi lengkap dengan banyak contoh
+   └─ Cocok untuk: Mereka yang ingin detail penjelasan
+   └─ Lokasi: d:\PT. Rekaindo Global Jasa\Program\print_barcode_python\ws\KodeArduinoUtama\printer02\
+
+
+════════════════════════════════════════════════════════════════════════════════
+⚡ SUPER QUICK START (3 LANGKAH):
+════════════════════════════════════════════════════════════════════════════════
+
+Komputer baru, ingin pull code:
+
+  1. Install Git: https://git-scm.com/download/win
+  2. Buka Git Bash, ketik:
+     git clone https://github.com/dantoel/print_barcode_python.git
+  3. Masuk folder:
+     cd print_barcode_python
+
+Selesai! Kode sudah ada di komputer Anda.
+
+
+════════════════════════════════════════════════════════════════════════════════
+🔄 UNTUK UPDATE KODE (SETIAP KALI):
+════════════════════════════════════════════════════════════════════════════════
+
+Buka Git Bash di folder project:
+  git pull origin main
+
+Done! Kode sudah update ke versi terbaru.
+
+
+════════════════════════════════════════════════════════════════════════════════
+📤 UNTUK SUBMIT KODE (JIka ingin berkontribusi):
+════════════════════════════════════════════════════════════════════════════════
+
+  1. git checkout -b nama-fitur       ← Buat branch
+  2. Edit file sesuai kebutuhan
+  3. git add .                        ← Stage
+  4. git commit -m "Deskripsi"        ← Commit
+  5. git push origin nama-fitur       ← Push
+  6. Buat Pull Request di GitHub
+
+
+════════════════════════════════════════════════════════════════════════════════
+🎯 WORKFLOW NORMAL:
+════════════════════════════════════════════════════════════════════════════════
+
+┌─ HARIAN ──────────────────────────────────────────────────────┐
+│                                                               │
+│  Pagi:                                                        │
+│  $ git pull origin main      ← Update kode terbaru           │
+│                                                               │
+│  Siang:                                                       │
+│  $ git status                ← Cek file yang berubah         │
+│  $ git add .                 ← Stage file                    │
+│  $ git commit -m "..."       ← Commit                        │
+│                                                               │
+│  Sore:                                                        │
+│  $ git push origin main      ← Push ke server                │
+│  (atau push ke branch jika working on feature)               │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+
+
+════════════════════════════════════════════════════════════════════════════════
+🌟 BEST PRACTICES:
+════════════════════════════════════════════════════════════════════════════════
+
+✅ DO:
+  • Pull sebelum mulai kerja
+  • Commit dengan pesan yang jelas
+  • Push sebelum pergi
+  • Buat branch terpisah untuk setiap fitur
+  • Review code sebelum commit
+
+❌ DON'T:
+  • Push ke main langsung (gunakan branch)
+  • Commit dengan pesan "update" saja
+  • Forget untuk pull
+  • Commit file konfigurasi/rahasia
+  • Force push ke main
+
+
+════════════════════════════════════════════════════════════════════════════════
+📝 COMMIT MESSAGE YANG BAIK:
+════════════════════════════════════════════════════════════════════════════════
+
+Format: <type>: <pesan>
+
+Type:
+  feat:     Feature baru
+  fix:      Bug fix
+  docs:     Dokumentasi
+  refactor: Refactor kode
+  style:    Format kode
+  test:     Test
+
+Contoh:
+  ✅ feat: Add new feature untuk cetak dengan custom size
+  ✅ fix: Fix database connection timeout
+  ✅ docs: Update README dengan instruksi setup
+  ✅ refactor: Extract print logic ke function terpisah
+
+  ❌ update
+  ❌ fix stuff
+  ❌ asdasd
+
+
+════════════════════════════════════════════════════════════════════════════════
+🆘 HELP - JIKA ADA MASALAH:
+════════════════════════════════════════════════════════════════════════════════
+
+Lihat file panduan sesuai masalah:
+
+  • Git tidak terinstall?
+    → Baca: LANGKAH_DEMI_LANGKAH_GIT.txt (Langkah 1)
+
+  • Lupa cara clone?
+    → Baca: LANGKAH_DEMI_LANGKAH_GIT.txt (Langkah 3)
+
+  • Tidak tahu cara pull?
+    → Baca: QUICK_GIT_REFERENCE.txt atau LANGKAH_DEMI_LANGKAH_GIT.txt (Langkah 4)
+
+  • Mau berkontribusi dengan PR?
+    → Baca: PANDUAN_GIT_BASH.txt (Langkah 5) atau LANGKAH_DEMI_LANGKAH_GIT.txt (Langkah 6)
+
+  • Ada error/masalah?
+    → Baca: PANDUAN_GIT_BASH.txt (Section TROUBLESHOOTING)
+
+
+════════════════════════════════════════════════════════════════════════════════
+🔗 USEFUL LINKS:
+════════════════════════════════════════════════════════════════════════════════
+
+  Repository: https://github.com/dantoel/print_barcode_python
+  Git Download: https://git-scm.com/download/win
+  Git Docs: https://git-scm.com/doc
+  GitHub Help: https://docs.github.com
+
+
+════════════════════════════════════════════════════════════════════════════════
+💡 TIPS & TRICKS:
+════════════════════════════════════════════════════════════════════════════════
+
+1. Set default editor:
+   git config --global core.editor "code"
+   (untuk VS Code)
+
+2. Setup SSH jika ingin tidak perlu password setiap kali:
+   https://docs.github.com/en/authentication/connecting-to-github-with-ssh
+
+3. Konfigurasi alias untuk command panjang:
+   git config --global alias.st status
+   git config --global alias.co checkout
+   git config --global alias.br branch
+
+   Sekarang bisa pakai:
+   git st (instead of git status)
+   git co (instead of git checkout)
+
+4. Auto-complete git command:
+   Download git-completion.bash dari GitHub
+
+
+════════════════════════════════════════════════════════════════════════════════
+📊 GIT WORKFLOW DIAGRAM:
+════════════════════════════════════════════════════════════════════════════════
+
+    LOCAL                        REMOTE (GitHub)
+    ──────────────────────────────────────────────
+
+   Working Directory
+   (folder Anda)
+         │
+    git add
+         │
+        ↓
+      Index (Staging Area)
+         │
+    git commit
+         │
+        ↓
+    Local Repository
+    (.git folder)
+         │
+    git push
+         │
+        ↓
+   ─────────────────── NETWORK ──────────────────
+         │
+        ↓
+    Remote Repository
+    (GitHub)
+         │
+    git clone/pull
+         │
+        ↓
+   Back to Local
+
+
+════════════════════════════════════════════════════════════════════════════════
+🎓 LEARNING PATH:
+════════════════════════════════════════════════════════════════════════════════
+
+Level 1 - PEMULA:
+  1. Baca: LANGKAH_DEMI_LANGKAH_GIT.txt
+  2. Practice: Clone, pull, commit, push
+  3. Goal: Bisa pull dan push code
+
+Level 2 - INTERMEDIATE:
+  1. Baca: PANDUAN_GIT_BASH.txt
+  2. Practice: Branching, merging, pull requests
+  3. Goal: Bisa berkontribusi dengan PR
+
+Level 3 - ADVANCED:
+  1. Baca: Advanced Git topics (conflict resolution, rebase, dll)
+  2. Practice: Complex workflows
+  3. Goal: Jadi Git pro
+
+
+════════════════════════════════════════════════════════════════════════════════
+
+Repository: print_barcode_python
+Owner: dantoel
+URL: https://github.com/dantoel/print_barcode_python
+
+Created: 2 Januari 2026
+Last Updated: 2 Januari 2026
+
+════════════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,116 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║                    QUICK REFERENCE - GIT BASH COMMANDS                         ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+
+🔧 SETUP (SEKALI SAJA - FIRST TIME):
+════════════════════════════════════════════════════════════════════════════════
+
+  git config --global user.name "Nama Anda"
+  git config --global user.email "email@anda.com"
+  git clone https://github.com/dantoel/print_barcode_python.git
+  cd print_barcode_python
+
+
+📥 PULL UPDATE DARI SERVER (SETIAP KALI INGIN TERBARU):
+════════════════════════════════════════════════════════════════════════════════
+
+  cd print_barcode_python
+  git pull origin main
+
+
+📤 PUSH KODE KE SERVER (SETELAH EDIT):
+════════════════════════════════════════════════════════════════════════════════
+
+  git add .
+  git commit -m "Deskripsi perubahan"
+  git push origin nama-branch
+
+
+🌿 BRANCH OPERATIONS:
+════════════════════════════════════════════════════════════════════════════════
+
+  # Lihat branch yang ada
+  git branch
+
+  # Lihat branch di server
+  git branch -r
+
+  # Buat branch baru
+  git checkout -b nama-branch-baru
+
+  # Switch ke branch
+  git checkout nama-branch
+
+  # Push branch ke server
+  git push origin nama-branch
+
+
+📋 COMMIT MESSAGES:
+════════════════════════════════════════════════════════════════════════════════
+
+  feat:     feat: Add new feature
+  fix:      fix: Fix bug
+  docs:     docs: Update documentation
+  refactor: refactor: Refactor code
+  style:    style: Format code
+
+
+✅ STATUS & CHECKING:
+════════════════════════════════════════════════════════════════════════════════
+
+  # Cek status
+  git status
+
+  # Lihat history
+  git log --oneline
+
+  # Lihat perubahan
+  git diff
+
+
+🔄 WORKFLOW STANDAR:
+════════════════════════════════════════════════════════════════════════════════
+
+  1. git pull origin main           ← Update terbaru
+  2. git checkout -b feature-name   ← Buat branch baru
+  3. Edit file sesuai kebutuhan
+  4. git add .                      ← Stage file
+  5. git commit -m "Deskripsi"      ← Commit
+  6. git push origin feature-name   ← Push ke server
+  7. Buat Pull Request di GitHub
+
+
+💡 MOST USED COMMANDS:
+════════════════════════════════════════════════════════════════════════════════
+
+  git pull              ← Update
+  git status            ← Cek status
+  git add .             ← Stage semua
+  git commit -m "msg"   ← Commit
+  git push              ← Push
+  git log               ← History
+
+
+🆘 UNDO OPERATIONS:
+════════════════════════════════════════════════════════════════════════════════
+
+  # Undo perubahan file (sebelum add)
+  git restore file.py
+
+  # Unstage file (setelah add, sebelum commit)
+  git reset HEAD file.py
+
+  # Undo last commit (tapi keep changes)
+  git reset --soft HEAD~1
+
+
+════════════════════════════════════════════════════════════════════════════════
+
+📍 REPOSITORY:
+  URL: https://github.com/dantoel/print_barcode_python
+  Current Branch: main
+
+════════════════════════════════════════════════════════════════════════════════

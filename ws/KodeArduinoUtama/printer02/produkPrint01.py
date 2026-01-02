@@ -12,9 +12,12 @@ import os.path
 
 
 
-connect = pymysql.connect(user='root', password='',
-                              host='192.168.10.173',
-                              database='reka')
+connect = pymysql.connect(
+  user='root',
+  password='',
+  host='192.168.10.173',
+  database='ppc_reka'
+)
 cursor =connect.cursor()
 
 def periksaDataBaru(cur00):

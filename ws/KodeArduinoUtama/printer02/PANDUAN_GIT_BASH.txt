@@ -1,0 +1,514 @@
+════════════════════════════════════════════════════════════════════════════════
+                   PANDUAN GIT BASH - PULL REQUEST & UPDATE KODE
+════════════════════════════════════════════════════════════════════════════════
+
+📍 REPOSITORY INFORMATION:
+  Repository: print_barcode_python
+  Owner: dantoel
+  Branch: main
+  URL: https://github.com/dantoel/print_barcode_python
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 1: INSTALL GIT BASH (JIKA BELUM ADA)
+════════════════════════════════════════════════════════════════════════════════
+
+Windows:
+  1. Download dari: https://git-scm.com/download/win
+  2. Double-click installer (.exe)
+  3. Ikuti wizard (default settings OK)
+  4. Restart komputer
+  5. Buka Git Bash (search "Git Bash")
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 2: SETUP GIT CONFIGURATION (FIRST TIME ONLY)
+════════════════════════════════════════════════════════════════════════════════
+
+Buka Git Bash dan ketik:
+
+  git config --global user.name "Nama Anda"
+  git config --global user.email "email@anda.com"
+
+Contoh:
+  git config --global user.name "John Doe"
+  git config --global user.email "john@example.com"
+
+Verifikasi:
+  git config --global --list
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 3: CLONE REPOSITORY (FIRST TIME ONLY)
+════════════════════════════════════════════════════════════════════════════════
+
+3.1 BUAT FOLDER UNTUK PROJECT:
+
+  mkdir projects
+  cd projects
+
+3.2 CLONE REPOSITORY:
+
+  git clone https://github.com/dantoel/print_barcode_python.git
+
+  Tunggu proses selesai...
+
+3.3 MASUK KE FOLDER PROJECT:
+
+  cd print_barcode_python
+
+Selesai! Sekarang Anda punya copy kode terbaru.
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 4: PULL UPDATE DARI SERVER (SETIAP KALI INGIN UPDATE)
+════════════════════════════════════════════════════════════════════════════════
+
+4.1 BUKA GIT BASH DI FOLDER PROJECT:
+
+  Klik kanan folder → "Git Bash Here"
+  ATAU buka Git Bash dan ketik:
+  cd path/ke/print_barcode_python
+
+4.2 PULL KODE TERBARU:
+
+  git pull origin main
+
+  Contoh output:
+  ───────────────────────────────────────────────────────────────
+  From https://github.com/dantoel/print_barcode_python
+   * branch            main       -> FETCH_HEAD
+  Already up to date.
+  ───────────────────────────────────────────────────────────────
+
+  Atau jika ada update:
+  ───────────────────────────────────────────────────────────────
+   cetak_dari_database.py | 5 ++++
+   1 file changed, 5 insertions(+)
+  ───────────────────────────────────────────────────────────────
+
+4.3 CEK STATUS:
+
+  git status
+
+  Output:
+  ───────────────────────────────────────────────────────────────
+  On branch main
+  Your branch is up to date with 'origin/main'.
+
+  nothing to commit, working tree clean
+  ───────────────────────────────────────────────────────────────
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 5: MEMBUAT PULL REQUEST (JIKA INGIN CONTRIBUTE)
+════════════════════════════════════════════════════════════════════════════════
+
+5.1 BUAT BRANCH BARU:
+
+  git checkout -b nama-branch-anda
+  
+  Contoh:
+  git checkout -b fix-printer-error
+  git checkout -b add-new-feature
+
+  Output:
+  ───────────────────────────────────────────────────────────────
+  Switched to a new branch 'fix-printer-error'
+  ───────────────────────────────────────────────────────────────
+
+5.2 EDIT FILE SESUAI KEBUTUHAN:
+
+  - Edit file di IDE favorit Anda (VS Code, Notepad++, dll)
+  - Test perubahan
+  - Simpan file
+
+5.3 CEK FILE YANG BERUBAH:
+
+  git status
+
+  Output:
+  ───────────────────────────────────────────────────────────────
+  On branch fix-printer-error
+  Changes not staged for commit:
+    modified:   cetak_dari_database.py
+    modified:   config.ini
+  ───────────────────────────────────────────────────────────────
+
+5.4 ADD FILE YANG BERUBAH:
+
+  Option A - Add semua file:
+  git add .
+
+  Option B - Add file spesifik:
+  git add cetak_dari_database.py
+  git add config.ini
+
+5.5 COMMIT PERUBAHAN:
+
+  git commit -m "Deskripsi perubahan Anda"
+
+  Contoh:
+  git commit -m "Fix: Update kolom workshop menjadi line"
+  git commit -m "Feat: Add debug mode untuk troubleshooting"
+  git commit -m "Docs: Update dokumentasi untuk line column"
+
+  Output:
+  ───────────────────────────────────────────────────────────────
+  [fix-printer-error 3e5f8c9] Fix: Update kolom workshop menjadi line
+   2 files changed, 15 insertions(+), 5 deletions(-)
+  ───────────────────────────────────────────────────────────────
+
+5.6 PUSH BRANCH KE SERVER:
+
+  git push origin nama-branch-anda
+
+  Contoh:
+  git push origin fix-printer-error
+
+  Output:
+  ───────────────────────────────────────────────────────────────
+  Enumerating objects: 4, done.
+  Counting objects: 100% (4/4), done.
+  Delta compression using up to 8 threads
+  Compressing objects: 100% (2/2), done.
+  Writing objects: 100% (2/2), 234 bytes, done.
+  ...
+  remote: Create a pull request for 'fix-printer-error' on GitHub by visiting:
+  remote:      https://github.com/dantoel/print_barcode_python/pull/new/fix-printer-error
+  ───────────────────────────────────────────────────────────────
+
+5.7 BUAT PULL REQUEST DI GITHUB:
+
+  1. Buka GitHub: https://github.com/dantoel/print_barcode_python
+  2. Klik tombol "Compare & pull request" (akan muncul setelah push)
+  3. ATAU klik menu "Pull requests" → "New pull request"
+  4. Pilih branch: dari 'fix-printer-error' ke 'main'
+  5. Isi title: "Fix: Update kolom workshop menjadi line"
+  6. Isi description dengan detail perubahan
+  7. Klik "Create pull request"
+
+5.8 TUNGGU REVIEW:
+
+  - Developer lain akan review perubahan Anda
+  - Mereka bisa add comments atau request changes
+  - Jika OK, pull request akan di-merge ke main branch
+
+════════════════════════════════════════════════════════════════════════════════
+WORKFLOW LENGKAP - QUICK REFERENCE
+════════════════════════════════════════════════════════════════════════════════
+
+┌─ SETUP (First Time Only) ─────────────────────────────────────────┐
+│                                                                   │
+│  git config --global user.name "Nama Anda"                       │
+│  git config --global user.email "email@anda.com"                 │
+│  git clone https://github.com/dantoel/print_barcode_python.git  │
+│  cd print_barcode_python                                         │
+│                                                                   │
+└───────────────────────────────────────────────────────────────────┘
+
+┌─ UNTUK SETIAP KALI KERJA ─────────────────────────────────────────┐
+│                                                                   │
+│  1. Update kode terbaru:                                         │
+│     cd print_barcode_python                                      │
+│     git pull origin main                                         │
+│                                                                   │
+│  2. Buat branch baru:                                            │
+│     git checkout -b feature-name                                 │
+│                                                                   │
+│  3. Edit file sesuai kebutuhan                                   │
+│                                                                   │
+│  4. Commit perubahan:                                            │
+│     git add .                                                    │
+│     git commit -m "Deskripsi perubahan"                          │
+│                                                                   │
+│  5. Push ke server:                                              │
+│     git push origin feature-name                                 │
+│                                                                   │
+│  6. Buat pull request di GitHub                                  │
+│                                                                   │
+└───────────────────────────────────────────────────────────────────┘
+
+════════════════════════════════════════════════════════════════════════════════
+PERINTAH GIT YANG SERING DIGUNAKAN
+════════════════════════════════════════════════════════════════════════════════
+
+VIEWING & CHECKING STATUS:
+─────────────────────────
+
+  git status
+    → Cek status file yang berubah
+
+  git log
+    → Lihat history commit
+
+  git log --oneline
+    → Lihat history commit (singkat)
+
+  git diff
+    → Lihat detail perubahan file
+
+  git branch
+    → Lihat list branch lokal
+
+  git branch -r
+    → Lihat list branch di server
+
+
+PULLING & UPDATING:
+──────────────────
+
+  git pull origin main
+    → Update dari main branch
+
+  git pull origin nama-branch
+    → Update dari branch tertentu
+
+
+CREATING & SWITCHING BRANCHES:
+──────────────────────────────
+
+  git checkout -b nama-branch-baru
+    → Buat branch baru dan switch ke sana
+
+  git checkout nama-branch
+    → Switch ke branch yang sudah ada
+
+  git switch nama-branch
+    → Switch ke branch (alternatif checkout)
+
+
+ADDING & COMMITTING:
+───────────────────
+
+  git add .
+    → Add semua file yang berubah
+
+  git add file-name.py
+    → Add file spesifik
+
+  git commit -m "Pesan commit"
+    → Commit dengan pesan
+
+
+PUSHING & PULLING:
+─────────────────
+
+  git push origin nama-branch
+    → Push branch ke server
+
+  git push -u origin nama-branch
+    → Push dengan set upstream
+
+  git push origin --delete nama-branch
+    → Hapus branch di server
+
+  git pull
+    → Pull dari branch yang sama
+
+
+UNDOING CHANGES:
+────────────────
+
+  git restore file-name.py
+    → Undo changes di file (sebelum add)
+
+  git reset HEAD file-name.py
+    → Unstage file (setelah add, sebelum commit)
+
+  git revert HEAD
+    → Buat commit baru yang undo previous commit
+
+  git reset --hard HEAD~1
+    → Delete commit terakhir (HATI-HATI!)
+
+
+MERGING:
+────────
+
+  git merge nama-branch
+    → Merge branch ke current branch
+
+
+STASHING:
+─────────
+
+  git stash
+    → Save changes temporary (untuk switch branch)
+
+  git stash pop
+    → Restore changes yang di-stash
+
+════════════════════════════════════════════════════════════════════════════════
+CONTOH WORKFLOW REAL - STEP BY STEP
+════════════════════════════════════════════════════════════════════════════════
+
+SKENARIO: Update kolom workshop menjadi line
+
+┌─ STEP 1: UPDATE KODE TERBARU ─────────────────────────────────────┐
+│                                                                   │
+│  $ cd print_barcode_python                                       │
+│  $ git pull origin main                                          │
+│                                                                   │
+│  Output:                                                          │
+│  Already up to date.                                             │
+│                                                                   │
+└───────────────────────────────────────────────────────────────────┘
+
+┌─ STEP 2: BUAT BRANCH BARU ────────────────────────────────────────┐
+│                                                                   │
+│  $ git checkout -b update-workshop-to-line                       │
+│                                                                   │
+│  Output:                                                          │
+│  Switched to a new branch 'update-workshop-to-line'             │
+│                                                                   │
+└───────────────────────────────────────────────────────────────────┘
+
+┌─ STEP 3: EDIT FILE ───────────────────────────────────────────────┐
+│                                                                   │
+│  Edit file:                                                       │
+│  - cetak_dari_database.py                                        │
+│  - config.ini                                                    │
+│  - Update dokumentasi                                            │
+│                                                                   │
+└───────────────────────────────────────────────────────────────────┘
+
+┌─ STEP 4: CEK STATUS ──────────────────────────────────────────────┐
+│                                                                   │
+│  $ git status                                                    │
+│                                                                   │
+│  Output:                                                          │
+│  On branch update-workshop-to-line                              │
+│                                                                   │
+│  Changes not staged for commit:                                  │
+│    modified:   cetak_dari_database.py                           │
+│    modified:   config.ini                                        │
+│    modified:   README_CETAK_DATABASE.md                         │
+│                                                                   │
+└───────────────────────────────────────────────────────────────────┘
+
+┌─ STEP 5: ADD & COMMIT ────────────────────────────────────────────┐
+│                                                                   │
+│  $ git add .                                                     │
+│  $ git commit -m "Refactor: Change workshop column to line"     │
+│                                                                   │
+│  Output:                                                          │
+│  [update-workshop-to-line abc1234] Refactor: Change workshop...  │
+│   3 files changed, 45 insertions(+), 15 deletions(-)            │
+│                                                                   │
+└───────────────────────────────────────────────────────────────────┘
+
+┌─ STEP 6: PUSH BRANCH ─────────────────────────────────────────────┐
+│                                                                   │
+│  $ git push origin update-workshop-to-line                       │
+│                                                                   │
+│  Output:                                                          │
+│  Enumerating objects: 5, done.                                   │
+│  ...                                                              │
+│  remote: Create a pull request for 'update-workshop-to-line'... │
+│                                                                   │
+└───────────────────────────────────────────────────────────────────┘
+
+┌─ STEP 7: CREATE PULL REQUEST ─────────────────────────────────────┐
+│                                                                   │
+│  1. Buka GitHub: https://github.com/dantoel/print_barcode_py...│
+│  2. Lihat notifikasi "Compare & pull request"                   │
+│  3. Klik tombol tersebut                                         │
+│  4. Isi title: "Refactor: Change workshop column to line"       │
+│  5. Isi deskripsi dengan detail perubahan                        │
+│  6. Klik "Create pull request"                                   │
+│                                                                   │
+└───────────────────────────────────────────────────────────────────┘
+
+════════════════════════════════════════════════════════════════════════════════
+TROUBLESHOOTING
+════════════════════════════════════════════════════════════════════════════════
+
+PROBLEM 1: "Permission denied (publickey)"
+──────────────────────────────────────────
+
+Solusi: Gunakan HTTPS instead of SSH
+  git clone https://github.com/dantoel/print_barcode_python.git
+  (bukan git@github.com:...)
+
+
+PROBLEM 2: "Merge conflict"
+──────────────────────────
+
+Terjadi ketika ada perubahan di file yang sama dari dua branch.
+
+Solusi:
+  1. Git akan tandai file yang conflict
+  2. Edit file tersebut dan resolve conflict
+  3. git add file-yang-conflict.py
+  4. git commit -m "Resolve merge conflict"
+
+
+PROBLEM 3: Lupa commit pesan yang baik
+──────────────────────────────────────
+
+Solusi:
+  git commit --amend -m "Pesan commit yang baru"
+
+
+PROBLEM 4: Ingin undo commit yang sudah push
+─────────────────────────────────────────────
+
+Solusi (safe way):
+  git revert HEAD
+  git push origin main
+
+
+PROBLEM 5: "Your branch and origin/main have diverged"
+──────────────────────────────────────────────────────
+
+Solusi:
+  git pull origin main
+  (fix any conflicts)
+  git push origin nama-branch
+
+
+════════════════════════════════════════════════════════════════════════════════
+TIPS & BEST PRACTICES
+════════════════════════════════════════════════════════════════════════════════
+
+✅ DO:
+  ✓ Commit sering dengan pesan yang jelas
+  ✓ Pull sebelum mulai kerja
+  ✓ Push sebelum mati
+  ✓ Buat branch baru untuk setiap fitur
+  ✓ Review perubahan sebelum commit
+  ✓ Gunakan .gitignore untuk file yang tidak perlu
+
+❌ DON'T:
+  ✗ Jangan push ke main langsung
+  ✗ Jangan commit dengan pesan "update" saja
+  ✗ Jangan forget untuk pull update terbaru
+  ✗ Jangan edit file config/secret di git
+  ✗ Jangan force push (git push -f) ke main
+
+════════════════════════════════════════════════════════════════════════════════
+GIT COMMIT MESSAGE CONVENTION
+════════════════════════════════════════════════════════════════════════════════
+
+Format: <type>: <subject>
+
+Type:
+  feat:     Feature baru
+  fix:      Bug fix
+  docs:     Dokumentasi
+  style:    Format/style tanpa perubahan fungsi
+  refactor: Refactor kode
+  test:     Test
+  chore:    Maintenance
+
+Contoh:
+  ✓ feat: Add debug mode untuk troubleshooting
+  ✓ fix: Fix printer DLL loading error
+  ✓ docs: Update README dengan line column
+  ✓ refactor: Change workshop to line throughout codebase
+  ✓ style: Format code with black formatter
+
+════════════════════════════════════════════════════════════════════════════════
+
+REPOSITORY INFORMATION:
+  URL: https://github.com/dantoel/print_barcode_python
+  Branch: main
+  Current Path: d:\PT. Rekaindo Global Jasa\Program\print_barcode_python
+
+════════════════════════════════════════════════════════════════════════════════

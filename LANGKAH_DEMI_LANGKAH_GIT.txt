@@ -1,0 +1,315 @@
+════════════════════════════════════════════════════════════════════════════════
+                STEP-BY-STEP: PULL CODE DI KOMPUTER LAIN
+════════════════════════════════════════════════════════════════════════════════
+
+📍 SKENARIO:
+   Anda punya komputer baru dan ingin pull code terbaru dari GitHub
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 1: INSTALL GIT BASH
+════════════════════════════════════════════════════════════════════════════════
+
+1. Buka browser → https://git-scm.com/download/win
+2. Download installer (.exe) sesuai sistem (32-bit atau 64-bit)
+3. Double-click installer
+4. Klik "Next" terus, setting default OK
+5. Klik "Install"
+6. Tunggu selesai, klik "Finish"
+
+Verifikasi:
+  - Buka cmd/powershell
+  - Ketik: git --version
+  - Jika keluar versi, artinya berhasil
+
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 2: SETUP GIT (FIRST TIME ONLY)
+════════════════════════════════════════════════════════════════════════════════
+
+1. Buka Git Bash (search di Windows)
+
+2. Konfigurasi nama dan email:
+
+   git config --global user.name "Nama Anda"
+   git config --global user.email "email@anda.com"
+
+   Contoh:
+   git config --global user.name "John Doe"
+   git config --global user.email "john@company.com"
+
+3. Verifikasi:
+
+   git config --global --list
+
+   Output (contoh):
+   user.name=John Doe
+   user.email=john@company.com
+   ...
+
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 3: CLONE REPOSITORY
+════════════════════════════════════════════════════════════════════════════════
+
+1. Buka Git Bash
+
+2. Navigasi ke folder yang diinginkan:
+
+   cd Documents
+   mkdir Projects
+   cd Projects
+
+3. Clone repository:
+
+   git clone https://github.com/dantoel/print_barcode_python.git
+
+   Tunggu sebentar...
+
+   Output (contoh):
+   ───────────────────────────────────────────────────────────
+   Cloning into 'print_barcode_python'...
+   remote: Enumerating objects: 45, done.
+   remote: Counting objects: 100% (45/45), done.
+   remote: Compressing objects: 100% (30/30), done.
+   Receiving objects: 100% (45/45), 125 KiB | 500 KiB/s, done.
+   Resolving deltas: 100% (15/15), done.
+   ───────────────────────────────────────────────────────────
+
+4. Masuk ke folder:
+
+   cd print_barcode_python
+
+5. Cek struktur folder:
+
+   ls
+
+   Anda akan melihat folder dan file dari repository
+
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 4: PULL CODE TERBARU (SETIAP KALI BUTUH UPDATE)
+════════════════════════════════════════════════════════════════════════════════
+
+Opsi 1 - Lewat Command Line:
+
+   # Buka Git Bash di folder project
+   cd path/to/print_barcode_python
+
+   # Pull kode terbaru
+   git pull origin main
+
+   Output (contoh):
+   ───────────────────────────────────────────────────────────
+   From https://github.com/dantoel/print_barcode_python
+    * branch            main       -> FETCH_HEAD
+   Updating a1b2c3d..e4f5g6h
+   Fast-forward
+    cetak_dari_database.py | 15 +++++++++------
+    config.ini            |  2 +-
+    2 files changed, 8 insertions(+), 9 deletions(-)
+   ───────────────────────────────────────────────────────────
+
+
+Opsi 2 - Lewat GUI (Untuk yang tidak familiar dengan CLI):
+
+   1. Buka folder di File Explorer
+   2. Klik kanan → "Git Bash Here"
+   3. Ketik: git pull origin main
+
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 5: CEK STATUS KODE
+════════════════════════════════════════════════════════════════════════════════
+
+1. Buka Git Bash di folder project
+
+2. Cek branch yang aktif:
+
+   git branch
+
+   Output (contoh):
+   ───────────────────────────────────────────────────────────
+   * main
+     feature-branch
+   ───────────────────────────────────────────────────────────
+
+   Tanda * menunjukkan branch yang sedang aktif.
+
+3. Cek status:
+
+   git status
+
+   Output (contoh):
+   ───────────────────────────────────────────────────────────
+   On branch main
+   Your branch is up to date with 'origin/main'.
+
+   nothing to commit, working tree clean
+   ───────────────────────────────────────────────────────────
+
+4. Lihat history commit:
+
+   git log --oneline
+
+   Output (contoh):
+   ───────────────────────────────────────────────────────────
+   e4f5g6h Refactor: Change workshop to line
+   d3c2b1a Docs: Update documentation
+   a1b2c3d feat: Add debug mode
+   ───────────────────────────────────────────────────────────
+
+
+════════════════════════════════════════════════════════════════════════════════
+LANGKAH 6: MEMULAI BERKONTRIBUSI (OPTIONAL)
+════════════════════════════════════════════════════════════════════════════════
+
+Jika Anda ingin membuat perubahan dan submit ke repository:
+
+6.1 BUAT BRANCH BARU:
+
+   git checkout -b nama-fitur
+
+   Contoh:
+   git checkout -b fix-printer-bug
+   git checkout -b add-logging-feature
+
+   Output:
+   ───────────────────────────────────────────────────────────
+   Switched to a new branch 'fix-printer-bug'
+   ───────────────────────────────────────────────────────────
+
+6.2 EDIT FILE SESUAI KEBUTUHAN:
+
+   - Buka folder di VS Code atau editor favorit
+   - Edit file yang diperlukan
+   - Save file
+
+6.3 LIHAT PERUBAHAN:
+
+   git status
+
+   Output (contoh):
+   ───────────────────────────────────────────────────────────
+   On branch fix-printer-bug
+   Changes not staged for commit:
+     modified:   cetak_dari_database.py
+     modified:   config.ini
+
+   Untracked files:
+     new_file.txt
+   ───────────────────────────────────────────────────────────
+
+6.4 STAGE PERUBAHAN:
+
+   # Stage semua file
+   git add .
+
+   # Atau stage file spesifik
+   git add cetak_dari_database.py
+   git add config.ini
+
+6.5 COMMIT PERUBAHAN:
+
+   git commit -m "fix: Fix printer initialization error"
+
+   Output (contoh):
+   ───────────────────────────────────────────────────────────
+   [fix-printer-bug 9a8b7c6] fix: Fix printer initialization error
+    2 files changed, 25 insertions(+), 5 deletions(-)
+   ───────────────────────────────────────────────────────────
+
+6.6 PUSH BRANCH KE SERVER:
+
+   git push origin fix-printer-bug
+
+   Output (contoh):
+   ───────────────────────────────────────────────────────────
+   Enumerating objects: 4, done.
+   Counting objects: 100% (4/4), done.
+   Delta compression using up to 8 threads
+   ...
+   remote: Create a pull request for 'fix-printer-bug' on GitHub by visiting:
+   remote:      https://github.com/dantoel/print_barcode_python/pull/new/fix-printer-bug
+   ───────────────────────────────────────────────────────────
+
+6.7 BUAT PULL REQUEST DI GITHUB:
+
+   1. Buka browser: https://github.com/dantoel/print_barcode_python
+   2. Klik menu "Pull requests"
+   3. Klik tombol "New pull request"
+   4. Pilih base: main, compare: fix-printer-bug
+   5. Isi title dan deskripsi
+   6. Klik "Create pull request"
+
+6.8 TUNGGU REVIEW:
+
+   - Pemilik atau maintainer akan review pull request
+   - Mereka bisa add comments atau request perubahan
+   - Setelah OK, pull request akan di-merge
+
+
+════════════════════════════════════════════════════════════════════════════════
+TROUBLESHOOTING
+════════════════════════════════════════════════════════════════════════════════
+
+❌ ERROR: "command not found: git"
+────────────────────────────────
+Solusi: Git belum terinstall
+  → Install Git Bash dari https://git-scm.com/download/win
+  → Restart command prompt setelah install
+
+
+❌ ERROR: "fatal: Could not read Username for 'https://github.com'"
+──────────────────────────────────────────────────────────────────
+Solusi: Masukkan username GitHub saat diminta
+  → Ketik username GitHub Anda
+  → Ketik password/token (untuk password, gunakan Personal Access Token)
+
+
+❌ ERROR: "fatal: permission denied"
+─────────────────────────────────
+Solusi: Username/password salah
+  → Pastikan username dan password GitHub benar
+  → Jika using SSH, setup SSH key terlebih dahulu
+
+
+❌ ERROR: "Already up to date" tapi ingin update
+──────────────────────────────────────────────────
+Solusi: Sudah punya versi terbaru
+  → Tidak masalah, berarti kode Anda sudah terbaru
+
+
+❌ COMMAND TIDAK KETEMU DI WINDOWS CMD
+────────────────────────────────────────
+Solusi: Gunakan Git Bash bukan Windows CMD
+  → Klik kanan di folder
+  → Pilih "Git Bash Here"
+  → Atau buka Git Bash dari Start Menu
+
+
+════════════════════════════════════════════════════════════════════════════════
+CHEAT SHEET - PERINTAH YANG PALING SERING
+════════════════════════════════════════════════════════════════════════════════
+
+Pertama kali:
+  git config --global user.name "Nama"
+  git clone https://github.com/dantoel/print_barcode_python.git
+  cd print_barcode_python
+
+Setiap kali kerja:
+  git pull origin main           ← Update kode
+  git checkout -b fitur-baru     ← Buat branch
+  git status                     ← Cek status
+  git add .                      ← Stage file
+  git commit -m "Pesan"          ← Commit
+  git push origin fitur-baru     ← Push
+
+
+════════════════════════════════════════════════════════════════════════════════
+REPOSITORY INFO:
+  Owner: dantoel
+  Repository: print_barcode_python
+  URL: https://github.com/dantoel/print_barcode_python
+  Main Branch: main
+
+════════════════════════════════════════════════════════════════════════════════
