@@ -26,7 +26,7 @@ def test_connection():
         'host': '192.168.12.250',
         'user': 'admin-reka',
         'password': 'J@debx132',
-        'database': 'reka',
+        'database': 'ppc_reka',
         'charset': 'utf8mb4',
     }
     

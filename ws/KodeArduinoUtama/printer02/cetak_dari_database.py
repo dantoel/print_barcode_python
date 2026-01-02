@@ -18,7 +18,7 @@ DB_CONFIG = {
     'host': '192.168.12.250',
     'user': 'admin-reka',
     'password': 'J@debx132',
-    'database': 'reka',  # Sesuaikan dengan nama database Anda
+    'database': 'ppc_reka',  # Database production
     'charset': 'utf8mb4',
     'cursorclass': pymysql.cursors.DictCursor
 }
