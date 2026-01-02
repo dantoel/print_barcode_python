@@ -48,7 +48,7 @@ def write_log(message):
 
 def connect_database(debug=False):
     """
-    Koneksi ke database MySQL
+    Koneksi ke database MySQL dengan autocommit enabled
     
     Returns:
         tuple: (connection, cursor) atau (None, None) jika gagal
@@ -60,7 +60,10 @@ def connect_database(debug=False):
         print(f"  Database: {DB_CONFIG['database']}")
     
     try:
-        connection = pymysql.connect(**DB_CONFIG)
+        # Tambahkan autocommit=True untuk menghindari packet sequence error
+        config = DB_CONFIG.copy()
+        connection = pymysql.connect(**config)
+        connection.autocommit(True)  # Enable autocommit
         cursor = connection.cursor()
         
         if debug:
@@ -99,11 +102,35 @@ def query_data_siap_cetak(cursor, debug=False):
         ORDER BY id_product ASC
     """
     
+def query_data_siap_cetak(cursor, debug=False):
+    """
+    Query data dari production_schedule dengan status 'Ready'
+    
+    Returns:
+        list: List of dict berisi id_product, product, dan data lainnya
+    """
+    query = """
+        SELECT 
+            id_product,
+            product,
+            line,
+            production_proggress
+        FROM production_schedule
+        WHERE production_proggress = 'Ready'
+        ORDER BY id_product ASC
+    """
+    
     if debug:
         print("\n[DATABASE] Menjalankan query...")
         print(f"  Query: {query}")
     
     try:
+        # Ping connection untuk memastikan masih hidup
+        try:
+            connection.ping(reconnect=True)
+        except:
+            pass
+        
         cursor.execute(query)
         rows = cursor.fetchall()
         
@@ -121,10 +148,18 @@ def query_data_siap_cetak(cursor, debug=False):
         error_msg = f"✗ ERROR Query: {db_error}"
         print(error_msg)
         write_log(error_msg)
+        # Close and reconnect on error
+        try:
+            cursor.close()
+        except:
+            pass
         return []
     
     except Exception as e:
         error_msg = f"✗ ERROR: {e}"
+        print(error_msg)
+        write_log(error_msg)
+        return []
         print(error_msg)
         write_log(error_msg)
         return []
@@ -381,11 +416,13 @@ def main_loop(debug=False, limit=None):
     
     finally:
         try:
-            cursor.close()
-            connection.close()
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()
             write_log("Database connection closed")
-        except:
-            pass
+        except Exception as close_error:
+            write_log(f"Warning: Error saat close connection: {close_error}")
 
 if __name__ == "__main__":
     import argparse
