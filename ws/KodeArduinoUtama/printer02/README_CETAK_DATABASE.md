@@ -1,10 +1,10 @@
-# 📋 CETAK BARCODE DARI DATABASE - Panduan Lengkap
+# 📋 CETAK QR CODE DARI DATABASE - Panduan Lengkap
 
 ## 🎯 Fitur
 
 - ✅ Koneksi otomatis ke database MySQL
 - ✅ Query otomatis data dengan status "Ready" 
-- ✅ Print barcode otomatis dengan ID produk dan nama produk
+- ✅ Print QR code otomatis dengan ID produk dan nama produk
 - ✅ Logging lengkap untuk debugging
 - ✅ User-friendly dengan konfirmasi sebelum print
 - ✅ Error handling yang detail

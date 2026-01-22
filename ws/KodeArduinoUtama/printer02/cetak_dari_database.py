@@ -1,5 +1,5 @@
 """
-Script untuk mencetak barcode dari database MySQL
+Script untuk mencetak QR code dari database MySQL
 Terhubung ke production_schedule dan otomatis print item dengan status 'Ready'
 """
 
@@ -169,10 +169,10 @@ def query_data_siap_cetak(cursor, debug=False):
 
 def cetakBarcode01(id_product, product_name, line="Line 1", debug=False):
     """
-    Fungsi cetak barcode ke printer thermal
+    Fungsi cetak QR code ke printer thermal
     
     Args:
-        id_product: Barcode value dari database
+        id_product: QR code value dari database
         product_name: Nama produk dari database
         line: Kode line/workstation
         debug: Enable debug mode
@@ -275,9 +275,9 @@ def cetakBarcode01(id_product, product_name, line="Line 1", debug=False):
             mydll.SetSizetext(1, 2)
             mydll.PrintString(b_string2, 0)
             
-            barcode_result = mydll.Print1Dbar(2, 60, 1, 2, 4, b_string1)
+            qrcode_result = mydll.Print2Dbar(6, 5, b_string1)
             if debug:
-                print(f"  - Print1Dbar() returned: {barcode_result}")
+                print(f"  - Print2Dbar() returned: {qrcode_result}")
             
             mydll.PrintChargeRow()
             mydll.PrintChargeRow()
@@ -295,7 +295,7 @@ def cetakBarcode01(id_product, product_name, line="Line 1", debug=False):
         
         sleep(2)
         
-        success_msg = f"✓ Cetak BERHASIL: {id_product} - {product_name}"
+        success_msg = f"✓ Cetak QR Code BERHASIL: {id_product} - {product_name}"
         print(success_msg)
         write_log(success_msg)
         

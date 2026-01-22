@@ -1,0 +1,144 @@
+═══════════════════════════════════════════════════════════════════════
+                    PERUBAHAN DARI BARCODE KE QR CODE
+═══════════════════════════════════════════════════════════════════════
+
+📅 Tanggal Perubahan: 22 Januari 2026
+
+🎯 RINGKASAN PERUBAHAN:
+   Sistem telah diubah dari mencetak Barcode 1D menjadi QR Code 2D
+   Semua fungsi tetap sama, hanya format output yang berubah
+
+═══════════════════════════════════════════════════════════════════════
+
+🔧 PERUBAHAN TEKNIS:
+
+1. FUNGSI PRINTER DLL:
+   ❌ Sebelum: Print1Dbar(2, 60, 1, 2, 4, data)
+   ✅ Sekarang: Print2Dbar(6, 5, data)
+   
+   Parameter QR Code:
+   - 6 = Mode QR Code
+   - 5 = Size/level correction
+
+2. FILE PYTHON YANG DIUBAH:
+   ✓ printer02.py
+   ✓ cetak_dari_database.py
+   ✓ cetak_manual.py
+   ✓ spsPrint00.py
+   ✓ produkPrint01.py
+
+3. FILE DOKUMENTASI YANG DIUBAH:
+   ✓ README_CETAK_BARCODE.md → Updated
+   ✓ README_CETAK_DATABASE.md → Updated
+   ✓ README_START_HERE.txt → Updated
+   ✓ PANDUAN_CEPAT.txt → Updated
+   ✓ DOKUMENTASI_LENGKAP.txt → Updated
+
+4. FILE BATCH:
+   ✓ CETAK_BARCODE.bat → Renamed to CETAK_QRCODE.bat
+   ✓ MENU_UTAMA.bat → Updated text
+
+═══════════════════════════════════════════════════════════════════════
+
+📊 PERBANDINGAN OUTPUT:
+
+SEBELUM (Barcode 1D):
+┌──────────────────────┐
+│     Workstation      │
+│    Product Name      │
+│ ║║║|║║|║|║║║║        │ ← Linear barcode (1D)
+└──────────────────────┘
+
+SEKARANG (QR Code 2D):
+┌──────────────────────┐
+│     Workstation      │
+│    Product Name      │
+│  ▓▓░░▓▓░░▓▓░░        │
+│  ░░▓▓░░▓▓░░▓▓        │ ← QR Code (2D)
+│  ▓▓░░▓▓░░▓▓░░        │
+└──────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════
+
+✅ KEUNTUNGAN QR CODE:
+
+1. Kapasitas Data Lebih Besar
+   - Barcode 1D: Maksimal ~30 karakter
+   - QR Code 2D: Ribuan karakter
+
+2. Error Correction
+   - QR Code punya built-in error correction
+   - Tetap bisa dibaca walau sebagian rusak
+
+3. Lebih Modern
+   - Bisa discan dengan smartphone
+   - Lebih banyak aplikasi support
+
+4. Space Efficient
+   - QR Code bisa lebih compact untuk data yang sama
+
+═══════════════════════════════════════════════════════════════════════
+
+🚀 CARA MENGGUNAKAN (TIDAK BERUBAH):
+
+1. Double-click: MENU_UTAMA.bat
+2. Pilih opsi yang diinginkan
+3. QR Code akan tercetak (bukan barcode lagi)
+
+Semua langkah penggunaan SAMA seperti sebelumnya!
+
+═══════════════════════════════════════════════════════════════════════
+
+⚠️  CATATAN PENTING:
+
+1. Pastikan printer thermal Anda support QR Code
+   - Kebanyakan printer dengan Msprintsdk.dll support
+   - Fungsi Print2Dbar() harus tersedia di DLL
+
+2. Jika Error "Function not found":
+   - Kemungkinan printer tidak support QR Code
+   - Hubungi vendor printer untuk update driver
+   - Atau gunakan versi lama (backup tersedia)
+
+3. Test Dulu:
+   - Jalankan TEST_PRINT.bat dengan 1 item
+   - Pastikan QR Code tercetak dengan benar
+   - Scan dengan smartphone untuk verifikasi
+
+═══════════════════════════════════════════════════════════════════════
+
+📱 CARA VERIFIKASI QR CODE:
+
+1. Cetak 1 QR Code test
+2. Scan dengan smartphone (kamera atau app QR reader)
+3. Harus muncul ID Product yang sesuai
+4. Jika tidak terbaca, kemungkinan:
+   - Size QR terlalu kecil → Ubah parameter Print2Dbar()
+   - Printer quality rendah → Bersihkan head printer
+
+═══════════════════════════════════════════════════════════════════════
+
+🔙 ROLLBACK (Jika Diperlukan):
+
+Jika ingin kembali ke Barcode 1D, ubah di semua file .py:
+
+DARI:
+    mydll.Print2Dbar(6, 5, b_string1)
+
+KE:
+    mydll.Print1Dbar(2, 60, 1, 2, 4, b_string1)
+
+═══════════════════════════════════════════════════════════════════════
+
+📞 SUPPORT:
+
+Jika ada masalah atau pertanyaan tentang perubahan ini:
+1. Cek file cetak_log.txt untuk error detail
+2. Jalankan DEBUG_CETAK.bat untuk info lengkap
+3. Lihat TROUBLESHOOT_CONNECTION.bat untuk diagnosa
+
+═══════════════════════════════════════════════════════════════════════
+
+✨ SELAMAT MENGGUNAKAN QR CODE! ✨
+
+═══════════════════════════════════════════════════════════════════════

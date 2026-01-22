@@ -10,7 +10,7 @@ chcp 65001 >nul
 cls
 echo.
 echo ========================================================================
-echo           CETAK BARCODE DARI DATABASE PRODUCTION_SCHEDULE
+echo           CETAK QR CODE DARI DATABASE PRODUCTION_SCHEDULE
 echo ========================================================================
 echo.
 echo Database: 192.168.12.250 (admin-reka)

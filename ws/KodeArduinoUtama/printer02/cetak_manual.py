@@ -22,10 +22,10 @@ def log_message(message):
 
 def cetakBarcode01(id1, nama, ws, debug=False):
     """
-    Fungsi cetak barcode dengan debug mode
+    Fungsi cetak QR code dengan debug mode
     
     Args:
-        id1: Barcode value
+        id1: QR code value
         nama: Nama produk
         ws: Workstation code
         debug: Enable debug mode (True/False)
@@ -192,7 +192,7 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             return False
         
         sleep(2)
-        log_message("\n✅ Cetak barcode BERHASIL!")
+        log_message("\n✅ Cetak QR code BERHASIL!")
         
         if debug:
             log_message("="*50)
@@ -205,12 +205,12 @@ def cetakBarcode01(id1, nama, ws, debug=False):
         log_message(f"\n✗ ERROR (Unexpected): {e}")
         log_message(f"\nFull traceback:")
         log_message(traceback.format_exc())
-        log_message(f"Gagal cetak barcode")
+        log_message(f"Gagal cetak QR code")
         return False
 
 if __name__ == "__main__":
     """
-    Script untuk manual printing barcode
+    Script untuk manual printing QR code
     
     Cara penggunaan:
     1. Double-click file ini (akan minta input)
@@ -229,7 +229,7 @@ if __name__ == "__main__":
         pass
     
     log_message("\n" + "="*60)
-    log_message("MANUAL BARCODE PRINTING SYSTEM")
+    log_message("MANUAL QR CODE PRINTING SYSTEM")
     log_message("="*60)
     log_message(f"Log file: {LOG_FILE}")
     

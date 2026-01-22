@@ -3,7 +3,7 @@
 ════════════════════════════════════════════════════════════════════════════════
 
 🎯 TUJUAN SISTEM:
-   Mencetak barcode otomatis dari database production_schedule
+   Mencetak QR code otomatis dari database production_schedule
    dengan status 'Ready'
 
 📍 DATABASE:
@@ -36,7 +36,7 @@
        Pilih opsi [2] (TEST PRINT)
 
    3️⃣  Pilih jumlah: 1 (test satu item dulu)
-       Lihat barcode keluar dari printer
+       Lihat QR code keluar dari printer
 
    4️⃣  Jika OK, jalankan lagi MENU_UTAMA.bat
        Pilih opsi [1] (PRINT SEMUA DATA)
@@ -48,18 +48,18 @@
 
 📋 DATA YANG AKAN DICETAK (dari database):
 
-   Format setiap barcode:
+   Format setiap QR code:
    ┌──────────────────────┐
    │     Workstation      │ ← Workshop
    │    Product Name      │ ← Nama Produk
-   │ [======BARCODE=====] │ ← ID Product (1D Barcode)
+   │    [QR CODE]         │ ← ID Product (QR Code 2D)
    └──────────────────────┘
 
    Contoh dari data Anda:
    ┌──────────────────────┐
    │        WS01          │
    │  Distribusi K1/K3    │
-   │ [===686A18101-11===] │
+   │   [QR CODE]          │
    └──────────────────────┘
 
 ════════════════════════════════════════════════════════════════════════════════

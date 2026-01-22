@@ -86,7 +86,7 @@ def cetakBarcode01(id1, nama, ws):
         mydll.PrintChargeRow()
         mydll.SetSizetext(1,2)
         mydll.PrintString(b_string2,0)
-        print(mydll.Print1Dbar(2,60,1,2,4,b_string1))
+        print(mydll.Print2Dbar(6,5,b_string1))
         mydll.PrintChargeRow()
         mydll.PrintChargeRow()
         mydll.PrintChargeRow()
@@ -111,7 +111,7 @@ def cetakBarcode01(id1, nama, ws):
         print(e)
 ##        tulis_lcd("4")
 ##        tulis_buzzer("2")
-        print("gagal cetak barcode")
+        print("gagal cetak qrcode")
         sleep(5)    
         #os.remove(""+id1+".png")
     return balik

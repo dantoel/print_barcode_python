@@ -1,6 +1,6 @@
 ╔════════════════════════════════════════════════════════════════════════╗
 ║                                                                        ║
-║    CETAK BARCODE DARI DATABASE - QUICK START GUIDE                    ║
+║    CETAK QR CODE DARI DATABASE - QUICK START GUIDE                    ║
 ║                                                                        ║
 ║    Database: 192.168.12.250 (admin-reka)                              ║
 ║    Tabel: production_schedule                                         ║

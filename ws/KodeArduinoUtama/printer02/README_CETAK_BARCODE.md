@@ -1,12 +1,12 @@
-# PANDUAN CETAK BARCODE MANUAL
+# PANDUAN CETAK QR CODE MANUAL
 
 ## Cara Menggunakan di Komputer Client
 
 ### Opsi 1: Double-Click File Batch (Paling Mudah)
 1. Buka folder: `printer02`
-2. Double-click file: **`CETAK_BARCODE.bat`**
+2. Double-click file: **`CETAK_QRCODE.bat`**
 3. Program akan otomatis membuka command window
-4. Masukkan barcode value, nama produk, dan workstation
+4. Masukkan QR code value, nama produk, dan workstation
 5. Tekan ENTER untuk cetak
 6. Window akan ditutup setelah selesai
 

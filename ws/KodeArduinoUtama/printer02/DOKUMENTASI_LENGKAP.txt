@@ -1,5 +1,5 @@
 ════════════════════════════════════════════════════════════════════════════════
-                     DOKUMENTASI LENGKAP - CETAK BARCODE DATABASE
+                     DOKUMENTASI LENGKAP - CETAK QR CODE DATABASE
 ════════════════════════════════════════════════════════════════════════════════
 
 📑 DAFTAR ISI:
@@ -14,7 +14,7 @@
 ════════════════════════════════════════════════════════════════════════════════
 
 TUJUAN:
-  Mencetak barcode otomatis dari tabel production_schedule database
+  Mencetak QR code otomatis dari tabel production_schedule database
   dengan status production_proggress = 'Ready'
 
 DATABASE:
@@ -25,7 +25,7 @@ DATABASE:
   Tabel: production_schedule
 
 DATA YANG DIAMBIL:
-  - id_product      → Barcode (misal: 686A18101-11)
+  - id_product      → QR Code (misal: 686A18101-11)
   - product         → Nama produk (misal: Distribusi K1/K3)
   - workshop        → Workstation (misal: WS01)
 
@@ -36,7 +36,7 @@ FILTER:
 PRINTER:
   - Tipe: Thermal printer (USB)
   - Driver: Msprintsdk.dll
-  - Format: 1D Barcode
+  - Format: 2D QR Code
 
 ════════════════════════════════════════════════════════════════════════════════
 2. KONFIGURASI DATABASE
@@ -45,8 +45,8 @@ PRINTER:
 STRUKTUR TABEL PRODUCTION_SCHEDULE (yang digunakan):
 
   Kolom Digunakan:
-  ├─ id_product           : Identitas produk (menjadi barcode)
-  ├─ product              : Nama produk (label di barcode)
+  ├─ id_product           : Identitas produk (menjadi QR code)
+  ├─ product              : Nama produk (label di QR code)
   ├─ production_proggress : Status (filter = 'Ready')
   └─ line                 : Production line (label di barcode)
 
