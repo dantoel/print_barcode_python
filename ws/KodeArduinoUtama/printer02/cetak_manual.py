@@ -167,9 +167,9 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             if debug:
                 log_message(f"    - PrintString(product name) executed")
             
-            barcode_result = mydll.Print1Dbar(2, 60, 1, 2, 4, b_string1)
+            qrcode_result = mydll.Print2Dbar(6, 5, b_string1)
             if debug:
-                log_message(f"    - Print1Dbar(barcode) returned: {barcode_result}")
+                log_message(f"    - Print2Dbar(qrcode) returned: {qrcode_result}")
             
             mydll.PrintChargeRow()
             mydll.PrintChargeRow()
