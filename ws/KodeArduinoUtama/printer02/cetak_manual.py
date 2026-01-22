@@ -175,12 +175,10 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             if debug:
                 log_message(f"    - PrintString(workstation) executed")
             
-            mydll.PrintChargeRow()
-            
-            mydll.SetSizetext(2, 1)  # Product Name - wider font (2x1)
+            mydll.SetSizetext(2, 2)  # Product Name - bigger font (2x2)
             mydll.PrintString(b_string2, 0)
             if debug:
-                log_message(f"    - PrintString(product name) executed (size 2x1)")
+                log_message(f"    - PrintString(product name) executed (size 2x2)")
             
             # Parse and optimize barcode data
             original_data = string1
@@ -211,12 +209,10 @@ def cetakBarcode01(id1, nama, ws, debug=False):
                         log_message(f"    ! Parse error: {parse_error}")
                     barcode_data = original_data  # Use original if parsing fails
             
-            # Print full original data as large text (for human reading)
-            mydll.PrintChargeRow()
+            # Print full original data as normal text (for human reading)
             mydll.SetSizetext(1, 1)  # Normal text (1x1)
             b_original = original_data.encode('utf-8')
             mydll.PrintString(b_original, 0)
-            mydll.PrintChargeRow()
             
             if debug:
                 log_message(f"    - Full text printed: {original_data} (size: 1x1)")
@@ -227,9 +223,6 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             
             if debug:
                 log_message(f"    - Barcode data length: {data_length} characters")
-            
-            # Add space before printing barcode
-            mydll.PrintChargeRow()
             
             # Print barcode - try different types
             qrcode_result = None
