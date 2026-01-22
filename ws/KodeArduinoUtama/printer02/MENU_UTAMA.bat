@@ -4,7 +4,6 @@ REM LAUNCHER GUI STYLE - Click-friendly version
 REM ========================================================================
 
 setlocal enabledelayedexpansion
-chcp 65001 >nul
 
 :menu
 cls
@@ -51,7 +50,7 @@ if "%choice%"=="6" goto exit_menu
 if "%choice%"=="0" goto exit_menu
 
 echo.
-echo ✗ Pilihan tidak valid
+echo [X] Pilihan tidak valid
 echo.
 pause
 goto menu
@@ -143,6 +142,6 @@ goto menu
 :exit_menu
 cls
 echo.
-echo Terima kasih telah menggunakan CETAK BARCODE
+echo Terima kasih telah menggunakan CETAK QR CODE
 echo.
 exit /b 0
