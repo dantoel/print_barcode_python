@@ -197,13 +197,13 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             
             # Print full original data as large text (for human reading)
             mydll.PrintChargeRow()
-            mydll.SetSizetext(2, 2)  # Large text
+            mydll.SetSizetext(3, 4)  # Extra large text (width=3x, height=4x)
             b_original = original_data.encode('utf-8')
             mydll.PrintString(b_original, 0)
             mydll.PrintChargeRow()
             
             if debug:
-                log_message(f"    - Full text printed: {original_data}")
+                log_message(f"    - Full text printed: {original_data} (size: 3x4)")
             
             # Prepare barcode data
             b_barcode = barcode_data.encode('utf-8')
