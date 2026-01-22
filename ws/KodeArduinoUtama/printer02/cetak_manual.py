@@ -162,38 +162,39 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             
             mydll.PrintChargeRow()
             
-            mydll.SetSizetext(1, 1)
+            mydll.SetSizetext(2, 1)  # Product Name - wider font (2x1)
             mydll.PrintString(b_string2, 0)
             if debug:
-                log_message(f"    - PrintString(product name) executed")
+                log_message(f"    - PrintString(product name) executed (size 2x1)")
             
             # Parse and optimize barcode data
             original_data = string1
             barcode_data = string1
             
-            # Check if data matches pattern: 683A18101/K3-153/45
-            # Extract: ProductNo-SerialNo (683A18101-153)
+            # Check if data matches pattern: 686A18103/K1-245/46
+            # Extract: ProductNo-SerialNo (686A18103-245)
             if '/' in original_data and '-' in original_data:
                 try:
                     parts = original_data.split('/')
                     if len(parts) >= 3:
-                        product_no = parts[0]  # 683A18101
-                        middle_part = parts[1]  # K3-153
+                        product_no = parts[0]  # 686A18103
+                        middle_part = parts[1]  # K1-245
                         
                         # Extract serial number from middle part (after -)
                         if '-' in middle_part:
-                            serial_no = middle_part.split('-')[1]  # 153
-                            barcode_data = f"{product_no}-{serial_no}"  # 683A18101-153
+                            serial_no = middle_part.split('-')[1]  # 245
+                            barcode_data = f"{product_no}-{serial_no}"  # 686A18103-245
                             
-                            log_message(f"    ℹ Data optimized for barcode:")
-                            log_message(f"      Original: {original_data}")
-                            log_message(f"      Product No: {product_no}")
-                            log_message(f"      Serial No: {serial_no}")
-                            log_message(f"      Barcode: {barcode_data}")
+                            if debug:
+                                log_message(f"    [DEBUG] Data parsing:")
+                                log_message(f"      Original: {original_data}")
+                                log_message(f"      Product No: {product_no}")
+                                log_message(f"      Serial No: {serial_no}")
+                                log_message(f"      Barcode: {barcode_data}")
                 except Exception as parse_error:
-                    log_message(f"    ! Could not parse data format, using original")
                     if debug:
-                        log_message(f"      Parse error: {parse_error}")
+                        log_message(f"    ! Parse error: {parse_error}")
+                    barcode_data = original_data  # Use original if parsing fails
             
             # Print full original data as large text (for human reading)
             mydll.PrintChargeRow()
@@ -219,17 +220,16 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             qrcode_result = None
             print_success = False
             
+            log_message(f"    [BARCODE] Attempting to print: {barcode_data}")
+            
             # STRATEGY 1: Standard barcode (Type 2 = EAN/UPC compatible)
             if not print_success:
                 try:
                     qrcode_result = mydll.Print1Dbar(2, 60, 1, 2, 4, b_barcode)
                     print_success = True
-                    log_message(f"    ✓ Barcode printed: {barcode_data} (Standard Type 2)")
-                    if debug:
-                        log_message(f"      Print1Dbar(2, 60, 1, 2, 4) returned: {qrcode_result}")
+                    log_message(f"    SUCCESS: Barcode printed (Type 2)")
                 except Exception as e:
-                    if debug:
-                        log_message(f"    - Type 2 attempt failed: {e}")
+                    log_message(f"    [TYPE 2 FAILED] {str(e)[:50]}")
             
             # STRATEGY 2: Try Code128 (Type 73 - supports alphanumeric)
             if not print_success:
@@ -237,12 +237,9 @@ def cetakBarcode01(id1, nama, ws, debug=False):
                     mydll.PrintChargeRow()
                     qrcode_result = mydll.Print1Dbar(73, 60, 2, 2, 0, b_barcode)
                     print_success = True
-                    log_message(f"    ✓ Barcode printed: {barcode_data} (Code128 Type 73)")
-                    if debug:
-                        log_message(f"      Print1Dbar(73, 60, 2, 2, 0) returned: {qrcode_result}")
+                    log_message(f"    SUCCESS: Barcode printed (Type 73 - Code128)")
                 except Exception as e:
-                    if debug:
-                        log_message(f"    - Type 73 (Code128) attempt failed: {e}")
+                    log_message(f"    [TYPE 73 FAILED] {str(e)[:50]}")
             
             # STRATEGY 3: Try QR Code
             if not print_success:
@@ -250,13 +247,12 @@ def cetakBarcode01(id1, nama, ws, debug=False):
                     mydll.PrintChargeRow()
                     qrcode_result = mydll.Print2Dbar(6, 5, b_barcode)
                     print_success = True
-                    log_message(f"    ✓ QR Code printed: {barcode_data}")
+                    log_message(f"    SUCCESS: QR Code printed")
                 except Exception as e:
-                    if debug:
-                        log_message(f"    - QR Code attempt failed: {e}")
+                    log_message(f"    [QR CODE FAILED] {str(e)[:50]}")
             
             if not print_success:
-                log_message(f"    ✗ Barcode print failed - all methods attempted")
+                log_message(f"    ERROR: Barcode print failed - all methods attempted")
             
             mydll.PrintChargeRow()
             mydll.PrintChargeRow()
