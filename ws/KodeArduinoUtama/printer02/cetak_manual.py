@@ -162,7 +162,7 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             
             mydll.PrintChargeRow()
             
-            mydll.SetSizetext(1, 2)
+            mydll.SetSizetext(1, 1)
             mydll.PrintString(b_string2, 0)
             if debug:
                 log_message(f"    - PrintString(product name) executed")
