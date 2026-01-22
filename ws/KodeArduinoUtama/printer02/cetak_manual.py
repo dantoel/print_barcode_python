@@ -155,7 +155,7 @@ def cetakBarcode01(id1, nama, ws, debug=False):
         
         try:
             mydll.SetAlignment(1)
-            mydll.SetSizetext(0, 0)
+            mydll.SetSizetext(1, 1)  # WS01 normal size (1x1)
             mydll.PrintString(b_string3, 0)
             if debug:
                 log_message(f"    - PrintString(workstation) executed")
@@ -197,13 +197,13 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             
             # Print full original data as large text (for human reading)
             mydll.PrintChargeRow()
-            mydll.SetSizetext(1, 1)  # Extra large text (width=3x, height=4x)
+            mydll.SetSizetext(1, 1)  # Normal text (1x1)
             b_original = original_data.encode('utf-8')
             mydll.PrintString(b_original, 0)
             mydll.PrintChargeRow()
             
             if debug:
-                log_message(f"    - Full text printed: {original_data} (size: 3x4)")
+                log_message(f"    - Full text printed: {original_data} (size: 1x1)")
             
             # Prepare barcode data
             b_barcode = barcode_data.encode('utf-8')
@@ -212,41 +212,51 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             if debug:
                 log_message(f"    - Barcode data length: {data_length} characters")
             
+            # Add space before printing barcode
+            mydll.PrintChargeRow()
+            
             # Print barcode - try different types
             qrcode_result = None
             print_success = False
             
-            # STRATEGY 1: Try Code128 (supports alphanumeric and longer data)
+            # STRATEGY 1: Standard barcode (Type 2 = EAN/UPC compatible)
             if not print_success:
                 try:
-                    # Type 73 = Code128 (supports up to 80 chars, alphanumeric)
-                    qrcode_result = mydll.Print1Dbar(73, 60, 2, 2, 0, b_barcode)
+                    qrcode_result = mydll.Print1Dbar(2, 60, 1, 2, 4, b_barcode)
                     print_success = True
-                    log_message(f"    ✓ Barcode printed: {barcode_data} (Code128)")
+                    log_message(f"    ✓ Barcode printed: {barcode_data} (Standard Type 2)")
                     if debug:
-                        log_message(f"      Print1Dbar(73=Code128) returned: {qrcode_result}")
+                        log_message(f"      Print1Dbar(2, 60, 1, 2, 4) returned: {qrcode_result}")
                 except Exception as e:
                     if debug:
-                        log_message(f"    - Code128 attempt failed: {e}")
+                        log_message(f"    - Type 2 attempt failed: {e}")
             
-            # STRATEGY 2: Try QR Code
+            # STRATEGY 2: Try Code128 (Type 73 - supports alphanumeric)
             if not print_success:
                 try:
+                    mydll.PrintChargeRow()
+                    qrcode_result = mydll.Print1Dbar(73, 60, 2, 2, 0, b_barcode)
+                    print_success = True
+                    log_message(f"    ✓ Barcode printed: {barcode_data} (Code128 Type 73)")
+                    if debug:
+                        log_message(f"      Print1Dbar(73, 60, 2, 2, 0) returned: {qrcode_result}")
+                except Exception as e:
+                    if debug:
+                        log_message(f"    - Type 73 (Code128) attempt failed: {e}")
+            
+            # STRATEGY 3: Try QR Code
+            if not print_success:
+                try:
+                    mydll.PrintChargeRow()
                     qrcode_result = mydll.Print2Dbar(6, 5, b_barcode)
                     print_success = True
                     log_message(f"    ✓ QR Code printed: {barcode_data}")
-                except:
-                    pass
-            
-            # STRATEGY 3: Standard barcode (fallback)
-            if not print_success:
-                try:
-                    # Type 2 = Standard barcode
-                    qrcode_result = mydll.Print1Dbar(2, 60, 1, 2, 4, b_barcode)
-                    print_success = True
-                    log_message(f"    ✓ Barcode printed: {barcode_data} (Standard)")
                 except Exception as e:
-                    log_message(f"    ✗ Barcode print failed: {e}")
+                    if debug:
+                        log_message(f"    - QR Code attempt failed: {e}")
+            
+            if not print_success:
+                log_message(f"    ✗ Barcode print failed - all methods attempted")
             
             mydll.PrintChargeRow()
             mydll.PrintChargeRow()
