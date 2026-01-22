@@ -167,9 +167,31 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             if debug:
                 log_message(f"    - PrintString(product name) executed")
             
-            qrcode_result = mydll.Print2Dbar(6, 5, b_string1)
-            if debug:
-                log_message(f"    - Print2Dbar(qrcode) returned: {qrcode_result}")
+            # Try QR code functions with fallback to barcode
+            qrcode_result = None
+            try:
+                # Attempt 1: Print2Dbar (most common for QR)
+                qrcode_result = mydll.Print2Dbar(6, 5, b_string1)
+                if debug:
+                    log_message(f"    - Print2Dbar(qrcode) returned: {qrcode_result}")
+            except AttributeError:
+                try:
+                    # Attempt 2: PrintQRcode
+                    qrcode_result = mydll.PrintQRcode(5, b_string1)
+                    if debug:
+                        log_message(f"    - PrintQRcode() returned: {qrcode_result}")
+                except AttributeError:
+                    try:
+                        # Attempt 3: PrintQRCode (capital C)
+                        qrcode_result = mydll.PrintQRCode(5, b_string1)
+                        if debug:
+                            log_message(f"    - PrintQRCode() returned: {qrcode_result}")
+                    except AttributeError:
+                        # Fallback to 1D Barcode if QR not supported
+                        log_message(f"    ! WARNING: QR Code not supported, using 1D Barcode instead")
+                        qrcode_result = mydll.Print1Dbar(2, 60, 1, 2, 4, b_string1)
+                        if debug:
+                            log_message(f"    - Print1Dbar(barcode fallback) returned: {qrcode_result}")
             
             mydll.PrintChargeRow()
             mydll.PrintChargeRow()
