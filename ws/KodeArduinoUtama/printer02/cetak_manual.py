@@ -108,6 +108,21 @@ def cetakBarcode01(id1, nama, ws, debug=False):
             if debug:
                 log_message(f"    - SetClean() executed")
             
+            # === PENGATURAN KETAJAMAN PRINT ===
+            try:
+                mydll.SetDensity(15)  # Maksimal gelap (0-15)
+                if debug:
+                    log_message(f"    - SetDensity(15) - Max darkness")
+            except:
+                pass  # Ignore if not supported
+            
+            try:
+                mydll.SetSpeed(3)  # Speed sedang (1=cepat, 5=lambat/tajam)
+                if debug:
+                    log_message(f"    - SetSpeed(3) - Medium speed for sharpness")
+            except:
+                pass  # Ignore if not supported
+            
             mydll.SetAlignment(2)
             mydll.SetSizechar(2, 2, 0, 0)
             
