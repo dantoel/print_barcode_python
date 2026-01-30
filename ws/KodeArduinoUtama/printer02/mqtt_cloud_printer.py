@@ -315,11 +315,11 @@ def cetakBarcode01(id1, nama, ws):
 # MQTT CALLBACKS
 # ========================================================================
 
-def on_connect(client, userdata, flags, reason_code, properties):
-    """Callback saat connect ke MQTT"""
+def on_connect(client, userdata, flags, rc, properties=None):
+    """Callback saat connect ke MQTT (compatible with paho-mqtt v1 and v2)"""
     global is_connected
     
-    if reason_code == 0:
+    if rc == 0:
         logger.info(f"Connected to MQTT: {BROKER_ADDRESS}:{BROKER_PORT}")
         is_connected = True
         
@@ -338,15 +338,15 @@ def on_connect(client, userdata, flags, reason_code, properties):
         }
         client.publish(TOPIC_STATUS_OUTPUT, json.dumps(status))
 
-def on_disconnect(client, userdata, disconnect_flags, reason_code, properties):
-    """Callback saat disconnect"""
+def on_disconnect(client, userdata, rc, properties=None):
+    """Callback saat disconnect (compatible with paho-mqtt v1 and v2)"""
     global is_connected
     is_connected = False
     
-    if reason_code == 0:
+    if rc == 0:
         logger.info("Disconnected from broker")
     else:
-        logger.warning(f"Unexpected disconnect. Code: {reason_code}")
+        logger.warning(f"Unexpected disconnect. Code: {rc}")
 
 def on_message(client, userdata, msg):
     """Callback saat menerima message"""
@@ -475,7 +475,16 @@ def main():
     logger.info(f"[MQTT] Connecting to {BROKER_ADDRESS}...")
     
     try:
-        mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, CLIENT_ID)
+        # Compatible with both paho-mqtt v1.x and v2.x
+        try:
+            # Try v2.x API first
+            mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, CLIENT_ID)
+            logger.debug("Using paho-mqtt v2.x API")
+        except AttributeError:
+            # Fall back to v1.x API
+            mqtt_client = mqtt.Client(CLIENT_ID)
+            logger.debug("Using paho-mqtt v1.x API")
+        
         mqtt_client.on_connect = on_connect
         mqtt_client.on_disconnect = on_disconnect
         mqtt_client.on_message = on_message
