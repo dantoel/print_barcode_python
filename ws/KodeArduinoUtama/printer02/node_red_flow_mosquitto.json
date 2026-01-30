@@ -1,0 +1,215 @@
+[
+  {
+    "id": "mosquitto_flow",
+    "type": "tab",
+    "label": "MQTT Barcode Printer - Mosquitto",
+    "disabled": false,
+    "info": "Flow untuk kirim barcode ke printer via Mosquitto Lokal dan menerima status."
+  },
+  {
+    "id": "inject_test_1",
+    "type": "inject",
+    "z": "mosquitto_flow",
+    "name": "Test 1: SKU-2026-001",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"barcode\":\"SKU-2026-001\",\"product\":\"Motor Pump\",\"line\":\"Line 1\"}",
+    "payloadType": "json",
+    "x": 180,
+    "y": 80,
+    "wires": [
+      [
+        "mqtt_out_print"
+      ]
+    ]
+  },
+  {
+    "id": "inject_test_2",
+    "type": "inject",
+    "z": "mosquitto_flow",
+    "name": "Test 2: 686A18103-245",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"barcode\":\"686A18103/K1-245/46\",\"product\":\"Produk Elektronik\",\"line\":\"WS01\"}",
+    "payloadType": "json",
+    "x": 180,
+    "y": 130,
+    "wires": [
+      [
+        "mqtt_out_print"
+      ]
+    ]
+  },
+  {
+    "id": "inject_test_3",
+    "type": "inject",
+    "z": "mosquitto_flow",
+    "name": "Test 3: Minimal",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"barcode\":\"TEST-123\"}",
+    "payloadType": "json",
+    "x": 180,
+    "y": 180,
+    "wires": [
+      [
+        "mqtt_out_print"
+      ]
+    ]
+  },
+  {
+    "id": "mqtt_out_print",
+    "type": "mqtt out",
+    "z": "mosquitto_flow",
+    "name": "MQTT Out - Print",
+    "topic": "printer/barcode/print",
+    "qos": "1",
+    "retain": "false",
+    "broker": "mosquitto_localhost",
+    "x": 450,
+    "y": 130,
+    "wires": []
+  },
+  {
+    "id": "mqtt_in_status",
+    "type": "mqtt in",
+    "z": "mosquitto_flow",
+    "name": "MQTT In - Status",
+    "topic": "printer/barcode/status",
+    "qos": "1",
+    "datatype": "auto",
+    "broker": "mosquitto_localhost",
+    "x": 200,
+    "y": 280,
+    "wires": [
+      [
+        "debug_status"
+      ]
+    ]
+  },
+  {
+    "id": "debug_status",
+    "type": "debug",
+    "z": "mosquitto_flow",
+    "name": "Status Output",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "x": 450,
+    "y": 280,
+    "wires": []
+  },
+  {
+    "id": "inject_cmd_status",
+    "type": "inject",
+    "z": "mosquitto_flow",
+    "name": "CMD: Check Status",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"command\":\"status\"}",
+    "payloadType": "json",
+    "x": 180,
+    "y": 360,
+    "wires": [
+      [
+        "mqtt_out_command"
+      ]
+    ]
+  },
+  {
+    "id": "inject_cmd_init",
+    "type": "inject",
+    "z": "mosquitto_flow",
+    "name": "CMD: Init Printer",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"command\":\"init\"}",
+    "payloadType": "json",
+    "x": 180,
+    "y": 410,
+    "wires": [
+      [
+        "mqtt_out_command"
+      ]
+    ]
+  },
+  {
+    "id": "mqtt_out_command",
+    "type": "mqtt out",
+    "z": "mosquitto_flow",
+    "name": "MQTT Out - Command",
+    "topic": "printer/barcode/command",
+    "qos": "1",
+    "retain": "false",
+    "broker": "mosquitto_localhost",
+    "x": 450,
+    "y": 385,
+    "wires": []
+  },
+  {
+    "id": "mosquitto_localhost",
+    "type": "mqtt-broker",
+    "name": "Mosquitto Localhost",
+    "broker": "17.17.17.254",
+    "port": "1883",
+    "clientid": "node-red-mosquitto",
+    "usetls": false,
+    "protocolVersion": "4",
+    "keepalive": "60",
+    "cleansession": true,
+    "autoConnect": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "closeTopic": "",
+    "closeQos": "0",
+    "closePayload": "",
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "sessionExpiry": ""
+  }
+]

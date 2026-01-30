@@ -1,0 +1,88 @@
+{
+  "comment": "Node-RED Printer Integration - Example Flow",
+  "nodes": [
+    {
+      "id": "node1",
+      "type": "inject",
+      "z": "flow1",
+      "name": "Test Barcode Data",
+      "topic": "",
+      "payload": "{\"barcode\":\"SKU-2026-001\",\"product\":\"Motor Pump\",\"line\":\"Line 1\"}",
+      "payloadType": "json",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": "",
+      "x": 150,
+      "y": 100,
+      "wires": [["node2"]]
+    },
+    {
+      "id": "node2",
+      "type": "mqtt out",
+      "z": "flow1",
+      "name": "Send to Printer",
+      "topic": "node-red/barcode/print",
+      "qos": "1",
+      "retain": "false",
+      "broker": "broker1",
+      "x": 350,
+      "y": 100,
+      "wires": []
+    },
+    {
+      "id": "node3",
+      "type": "mqtt in",
+      "z": "flow1",
+      "name": "Printer Status",
+      "topic": "node-red/barcode/status",
+      "qos": "1",
+      "broker": "broker1",
+      "x": 350,
+      "y": 200,
+      "wires": [["node4"]]
+    },
+    {
+      "id": "node4",
+      "type": "debug",
+      "z": "flow1",
+      "name": "Status Output",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "true",
+      "x": 550,
+      "y": 200,
+      "wires": []
+    },
+    {
+      "id": "broker1",
+      "type": "mqtt-broker",
+      "z": "",
+      "name": "MQTT Broker",
+      "broker": "192.168.1.103",
+      "port": "1883",
+      "clientid": "NodeRED",
+      "usetls": false,
+      "compatmode": true,
+      "keepalive": "60",
+      "cleansession": true,
+      "birthTopic": "",
+      "birthQos": "0",
+      "birthPayload": "",
+      "closeTopic": "",
+      "closeQos": "0",
+      "closePayload": "",
+      "willTopic": "",
+      "willQos": "0",
+      "willPayload": ""
+    }
+  ],
+  "flows": [
+    {
+      "id": "flow1",
+      "label": "Barcode Printer Flow"
+    }
+  ]
+}
