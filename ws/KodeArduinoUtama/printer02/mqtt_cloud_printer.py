@@ -315,11 +315,11 @@ def cetakBarcode01(id1, nama, ws):
 # MQTT CALLBACKS
 # ========================================================================
 
-def on_connect(client, userdata, flags, rc, properties=None):
+def on_connect(client, userdata, flags, reason_code, properties):
     """Callback saat connect ke MQTT"""
     global is_connected
     
-    if rc == 0:
+    if reason_code == 0:
         logger.info(f"Connected to MQTT: {BROKER_ADDRESS}:{BROKER_PORT}")
         is_connected = True
         
@@ -338,15 +338,15 @@ def on_connect(client, userdata, flags, rc, properties=None):
         }
         client.publish(TOPIC_STATUS_OUTPUT, json.dumps(status))
 
-def on_disconnect(client, userdata, rc, properties=None):
+def on_disconnect(client, userdata, disconnect_flags, reason_code, properties):
     """Callback saat disconnect"""
     global is_connected
     is_connected = False
     
-    if rc == 0:
+    if reason_code == 0:
         logger.info("Disconnected from broker")
     else:
-        logger.warning(f"Unexpected disconnect. Code: {rc}")
+        logger.warning(f"Unexpected disconnect. Code: {reason_code}")
 
 def on_message(client, userdata, msg):
     """Callback saat menerima message"""
