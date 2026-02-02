@@ -15,6 +15,8 @@ import sys
 import logging
 import os
 import time
+import socket
+import uuid
 import configparser
 from datetime import datetime
 from ctypes import *
@@ -84,6 +86,17 @@ mqtt_client = None
 printer_dll = None
 is_connected = False
 is_printer_ready = False
+
+# ========================================================================
+# MQTT CLIENT ID
+# ========================================================================
+
+def build_unique_client_id(base_client_id: str) -> str:
+    """Build unique client id for multi-device connections."""
+    host = socket.gethostname()
+    pid = os.getpid()
+    suffix = uuid.uuid4().hex[:6]
+    return f"{base_client_id}_{host}_{pid}_{suffix}"
 
 # ========================================================================
 # PRINTER FUNCTIONS (dari printer02.py)
@@ -478,11 +491,13 @@ def main():
         # Compatible with both paho-mqtt v1.x and v2.x
         try:
             # Try v2.x API first
-            mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, CLIENT_ID)
+            unique_client_id = build_unique_client_id(CLIENT_ID)
+            mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, unique_client_id)
             logger.debug("Using paho-mqtt v2.x API")
         except AttributeError:
             # Fall back to v1.x API
-            mqtt_client = mqtt.Client(CLIENT_ID)
+            unique_client_id = build_unique_client_id(CLIENT_ID)
+            mqtt_client = mqtt.Client(unique_client_id)
             logger.debug("Using paho-mqtt v1.x API")
         
         mqtt_client.on_connect = on_connect
