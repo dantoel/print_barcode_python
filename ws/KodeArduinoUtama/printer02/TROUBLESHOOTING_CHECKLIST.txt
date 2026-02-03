@@ -1,0 +1,367 @@
+═══════════════════════════════════════════════════════════════════════════════
+                        PRINTER TROUBLESHOOTING CHECKLIST
+═══════════════════════════════════════════════════════════════════════════════
+
+Gunakan checklist ini untuk troubleshoot printer step-by-step.
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION 1: BASIC CHECKS (Cek Pertama)
+═══════════════════════════════════════════════════════════════════════════════
+
+Lakukan pengecekan dasar sebelum menjalankan diagnostic tools:
+
+PRINTER PHYSICAL:
+  ☐ Printer terhubung dengan USB ke komputer?
+  ☐ Printer dalam kondisi hidup (lihat lampu power)?
+  ☐ Ada kertas di printer?
+  ☐ Tinta/ribbon tidak habis?
+  ☐ Tidak ada error di panel printer?
+  ☐ Printer head bersih (tidak kotor/tersumbat)?
+
+KOMPUTER SETUP:
+  ☐ Kabel USB tidak loose atau rusak?
+  ☐ Port USB komputer berfungsi (test dengan device lain)?
+  ☐ Antivirus tidak block printer driver?
+  ☐ Tidak ada software lain yang lock printer?
+  ☐ Run Command Prompt sebagai Administrator?
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION 2: QUICK DIAGNOSIS
+═══════════════════════════════════════════════════════════════════════════════
+
+Jika basic checks OK, jalankan diagnostic:
+
+STEP 1: Buka Command Prompt atau PowerShell
+  ☐ Windows Key + R
+  ☐ Type: cmd
+  ☐ Press Enter
+
+STEP 2: Navigate ke printer folder
+  ☐ Copy-paste: cd d:\Aveva Projects\print_barcode\print_barcode_python\ws\KodeArduinoUtama\printer02
+  ☐ Press Enter
+  ☐ Lihat prompt berubah ke printer folder
+
+STEP 3: Jalankan TROUBLESHOOT.bat
+  ☐ Type: TROUBLESHOOT.bat
+  ☐ Press Enter
+  ☐ Menu akan muncul
+
+STEP 4: Pilih Option 1 untuk full diagnostic
+  ☐ Type: 1
+  ☐ Press Enter
+  ☐ Tunggu test selesai
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION 3: READING DIAGNOSTIC RESULTS
+═══════════════════════════════════════════════════════════════════════════════
+
+Setelah diagnostic selesai, lihat hasil:
+
+TEST 1: DLL PATH & AVAILABILITY
+  ☐ ✓ PASS: DLL ditemukan, lanjut ke test berikutnya
+  ☐ ✗ FAIL: Update path di mqtt_config.ini
+
+TEST 2: LOAD DLL
+  ☐ ✓ PASS: DLL berhasil di-load
+  ☐ ✗ FAIL: Install Visual C++ Runtime dari: https://support.microsoft.com/en-us/help/2977003/
+
+TEST 3: CHECK DLL FUNCTIONS
+  ☐ ✓ PASS: Semua function tersedia
+  ☐ ⚠ WARNING: Beberapa missing (biasanya OK)
+
+TEST 4: PRINTER CONNECTION
+  ☐ ✓ PASS: Printer terdeteksi dan siap
+  ☐ ✗ FAIL: Lihat SECTION 4 untuk fix
+
+TEST 5: TEST PRINT BARCODE
+  ☐ ✓ PASS: Barcode berhasil dicetak - PRINTER OK!
+  ☐ ✗ FAIL: Lihat SECTION 5 untuk fix
+
+TEST 6: MQTT CONNECTIVITY
+  ☐ ✓ PASS: MQTT broker connected
+  ☐ ✗ FAIL: Check internet connection, lihat SECTION 6
+
+TEST 7: USB DEVICES
+  ☐ ℹ INFO: Untuk reference saja
+  ☐ Check apakah printer COM port ada di list
+
+TEST 8: FILE PERMISSIONS
+  ☐ ✓ PASS: Semua permission OK
+  ☐ ✗ FAIL: Run CMD sebagai Administrator
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION 4: PRINTER CONNECTION TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════════
+
+Jika TEST 4 atau TEST 5 fail (printer tidak terdeteksi/tidak print):
+
+FIX 1: Cek koneksi USB
+  ☐ Cabut kabel USB dari printer
+  ☐ Tunggu 10 detik
+  ☐ Hubungkan kembali
+  ☐ Tunggu printer re-enumerate (5-10 detik)
+  ☐ Run diagnostic lagi
+
+FIX 2: Cek driver printer
+  ☐ Buka Device Manager (Win Key + X → Device Manager)
+  ☐ Cari "Ports (COM & LPT)" atau printer model
+  ☐ Jika ada tanda tanya atau seru → Driver tidak installed
+  ☐ Right-click → Update driver → Browse computer
+  ☐ Cari driver di CD atau download dari website
+
+FIX 3: Restart printer
+  ☐ Matikan printer (main power)
+  ☐ Tunggu 10 detik
+  ☐ Nyalakan kembali
+  ☐ Tunggu 10 detik sampai printer ready
+  ☐ Run diagnostic lagi
+
+FIX 4: Clear print queue Windows
+  ☐ Buka Devices and Printers (Settings → Devices)
+  ☐ Right-click printer → Printer properties
+  ☐ Lihat "Queue printer" ada item yang stuck?
+  ☐ Clear manual atau restart Windows Print Spooler
+
+FIX 5: Reinstall printer driver
+  ☐ Uninstall driver di Device Manager
+  ☐ Cabut USB printer
+  ☐ Restart komputer
+  ☐ Plug USB printer
+  ☐ Install driver fresh
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION 5: PRINT OUTPUT TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════════
+
+Jika TEST 5 fail (print command OK tapi tidak ada output):
+
+DIAGNOSIS CHECKLIST:
+
+Paper:
+  ☐ Ada kertas di printer?
+  ☐ Kertas tidak sobekuntuk print normal?
+  ☐ Kertas terpasang dengan benar?
+
+Tinta/Ribbon/Head:
+  ☐ Tinta/ribbon belum habis?
+  ☐ Print head bersih?
+  ☐ Protective tape sudah dilepas (jika baru)?
+  ☐ Tidak ada kertas tersumbat di head?
+
+Printer Status:
+  ☐ Lihat panel printer, ada error?
+  ☐ Baca manual untuk error code arti
+  ☐ Ada lampu yang nyala/berkedip?
+
+FIX 1: Clean print head
+  ☐ Buka menu printer (jika ada LCD)
+  ☐ Cari "Maintenance" atau "Clean"
+  ☐ Jalankan head cleaning cycle
+  ☐ Tunggu selesai
+  ☐ Coba print lagi
+
+FIX 2: Check paper path
+  ☐ Buka printer cover
+  ☐ Lihat apakah ada kertas tersangkut
+  ☐ Keluarkan kertas stuck
+  ☐ Bersihkan sensor kertas (jika ada)
+  ☐ Tutup dan coba lagi
+
+FIX 3: Reset printer
+  ☐ Matikan printer (power)
+  ☐ Tahan power button 10 detik
+  ☐ Nyalakan kembali
+  ☐ Tunggu printer ready
+  ☐ Coba print lagi
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION 6: DLL & SOFTWARE TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════════
+
+Jika TEST 1 atau TEST 2 fail:
+
+FIX 1: Update DLL path (jika TEST 1 fail)
+  ☐ Buka notepad
+  ☐ File → Open → mqtt_config.ini
+  ☐ Cari baris: DLL_PATH=...
+  ☐ Update path ke lokasi Msprintsdk.dll yang benar
+  ☐ Contoh: DLL_PATH=C:\MyFolder\Msprintsdk.dll
+  ☐ Save file
+  ☐ Run diagnostic lagi
+
+FIX 2: Find DLL location
+  ☐ Buka PowerShell (as Administrator)
+  ☐ Copy-paste: Get-ChildItem -Path "C:\" -Recurse -Filter "Msprintsdk.dll" 2>$null
+  ☐ Lihat path dimana DLL found
+  ☐ Update mqtt_config.ini dengan path tersebut
+
+FIX 3: Install Visual C++ Runtime (jika TEST 2 fail)
+  ☐ Download dari: https://support.microsoft.com/en-us/help/2977003/
+  ☐ Pilih version yang sesuai (x86 atau x64)
+  ☐ Install
+  ☐ Restart komputer
+  ☐ Run diagnostic lagi
+
+FIX 4: Verify DLL integrity
+  ☐ Cek ukuran file DLL (harus > 100 KB)
+  ☐ Check last modified date (jangan terlalu lama)
+  ☐ Jika suspicious, copy DLL dari komputer yang berfungsi
+  ☐ Paste ke folder printer02
+  ☐ Run diagnostic lagi
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION 7: QUEUE & DATABASE TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════════
+
+Jika ada item yang stuck di queue atau data menumpuk:
+
+CHECK QUEUE STATUS:
+  ☐ Run: CHECK_STATUS.bat
+  ☐ Lihat berapa banyak pending items
+  ☐ Lihat barcode apa yang pending
+  ☐ Lihat error message untuk failed items
+
+FIX 1: Process queue manual
+  ☐ Run: TROUBLESHOOT.bat → Option 2
+  ☐ Lihat status printer dan queue
+  ☐ Jika pending banyak, pastikan printer OK
+
+FIX 2: Clear failed items
+  ☐ Run: CHECK_STATUS.bat
+  ☐ Lihat failed items
+  ☐ TROUBLESHOOT.bat → Option 6 (Reset Queue)
+  ☐ DATABASE akan di-reset (data hilang!)
+
+FIX 3: Monitor queue real-time
+  ☐ Run: CHECK_STATUS.bat
+  ☐ Check setiap jam untuk pastikan queue processing OK
+  ☐ Setup reminder untuk rutin check
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION 8: EMERGENCY RECOVERY
+═══════════════════════════════════════════════════════════════════════════════
+
+Jika semua cara di atas tidak berhasil:
+
+NUCLEAR OPTION (Reset semua):
+
+  1. Stop MQTT service
+     ☐ Buka window yang running mqtt_cloud_printer.py
+     ☐ Press Ctrl+C untuk stop
+
+  2. Reset queue database
+     ☐ TROUBLESHOOT.bat → Option 6 (Reset Queue Database)
+     ☐ Atau manual: delete print_queue.db
+
+  3. Power cycle printer
+     ☐ Matikan printer (main power)
+     ☐ Tunggu 30 detik
+     ☐ Nyalakan printer
+
+  4. Restart komputer
+     ☐ Restart Windows
+     ☐ Tunggu system fully boot
+
+  5. Test connection
+     ☐ Open CMD
+     ☐ cd ke printer folder
+     ☐ python -c "import paho.mqtt.client as mqtt; print('MQTT OK')"
+     ☐ Check connectivity
+
+  6. Start service kembali
+     ☐ Run: RUN_MQTT_CLOUD_PRINTER.bat
+     ☐ Lihat log untuk messages
+
+  7. Test print
+     ☐ TROUBLESHOOT.bat → Option 3
+     ☐ Pastikan barcode tercetak
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION 9: COLLECTING INFORMATION FOR SUPPORT
+═══════════════════════════════════════════════════════════════════════════════
+
+Jika masih tidak berhasil, kumpulkan informasi untuk support:
+
+STEP 1: Save diagnostic output
+  ☐ Run: RUN_DIAGNOSTIC.bat > diagnostic.txt 2>&1
+  ☐ File diagnostic.txt akan dibuat
+
+STEP 2: Save queue status
+  ☐ Run: CHECK_STATUS.bat > queue_status.txt 2>&1
+  ☐ File queue_status.txt akan dibuat
+
+STEP 3: Copy error log
+  ☐ Buka folder printer02
+  ☐ Find file: mqtt_printer.log
+  ☐ Copy ke: mqtt_printer_log.txt
+
+STEP 4: Copy configuration
+  ☐ Copy: mqtt_config.ini
+  ☐ Edit: Remove MQTT password jika ada
+  ☐ Save as: mqtt_config_safe.ini
+
+STEP 5: System information
+  ☐ Open PowerShell
+  ☐ Run: systeminfo > sysinfo.txt
+  ☐ File sysinfo.txt akan dibuat
+
+STEP 6: Submit to support
+  ☐ Attach files:
+     - diagnostic.txt
+     - queue_status.txt
+     - mqtt_printer_log.txt
+     - mqtt_config_safe.ini
+     - sysinfo.txt
+  ☐ Jelaskan masalah dengan detail
+  ☐ Include printer model
+  ☐ Include Windows version
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION 10: MAINTENANCE SCHEDULE
+═══════════════════════════════════════════════════════════════════════════════
+
+Lakukan pengecekan berkala untuk prevent issues:
+
+DAILY:
+  ☐ Check printer manual (ada error/paper/tinta?)
+  ☐ Review log file untuk warning
+
+WEEKLY:
+  ☐ Run: CHECK_STATUS.bat
+  ☐ Verify queue status
+  ☐ Check pending items
+
+MONTHLY:
+  ☐ Run: RUN_DIAGNOSTIC.bat
+  ☐ Full system check
+  ☐ Compare with previous results
+  ☐ Clean printer head (maintenance cycle)
+
+QUARTERLY:
+  ☐ Deep dive troubleshooting
+  ☐ Check all settings in mqtt_config.ini
+  ☐ Verify internet/MQTT broker
+  ☐ Test with another device
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ CHECKLIST SUMMARY:
+
+Jika sudah selesai troubleshooting:
+
+  ☐ All diagnostic tests PASSED
+  ☐ Barcode successfully printed
+  ☐ Queue status OK (0 pending)
+  ☐ No error in log
+  ☐ Printer responsive
+  ☐ MQTT connection OK
+
+Status: ✅ PRINTER READY TO USE
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Version: 1.0
+Created: 2026-02-03
+Updated: 2026-02-03
+
+═══════════════════════════════════════════════════════════════════════════════

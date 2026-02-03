@@ -1,0 +1,234 @@
+# TOOLS YANG SUDAH DIBUAT
+
+Untuk troubleshoot printer yang tidak bisa print, berikut tools yang sudah disiapkan:
+
+## 📋 File List
+
+### 1. **TROUBLESHOOT.bat** ⭐ START HERE
+Menu interaktif utama untuk troubleshooting
+- Pilih action yang sesuai dengan masalah Anda
+- Auto-guide through solutions
+- Paling user-friendly
+
+**Cara pakai:**
+```
+Double-click TROUBLESHOOT.bat
+Pilih opsi sesuai masalah
+```
+
+### 2. **RUN_DIAGNOSTIC.bat**
+Full diagnostic tool yang test semua aspek:
+- DLL availability
+- DLL loading
+- Printer connection
+- USB detection
+- MQTT connectivity
+- File permissions
+- Print test
+
+**Output:** Detailed report dengan rekomendasi
+
+### 3. **CHECK_STATUS.bat**
+Cek status printer dan queue real-time:
+- Lihat berapa banyak pending/printed/failed
+- Lihat list barcode yang pending
+- Lihat error messages
+
+### 4. **DIAGNOSTIC_PRINTER.py**
+Script Python untuk running diagnostic
+(Jangan dijalankan langsung, gunakan RUN_DIAGNOSTIC.bat)
+
+### 5. **TROUBLESHOOTING_GUIDE.md**
+Dokumentasi lengkap:
+- Common issues & solutions
+- Step-by-step fixes
+- Advanced troubleshooting
+- Manual testing methods
+
+**Cara buka:**
+```
+Notepad > Open > TROUBLESHOOTING_GUIDE.md
+atau
+Right-click > Open with > Notepad
+```
+
+### 6. **README_DIAGNOSTIC.md**
+Guide lengkap untuk semua tools
+- Penjelasan setiap test
+- Understanding test results
+- Emergency recovery
+- Support information
+
+---
+
+## 🚀 QUICK START GUIDE
+
+### Printer tidak bisa print?
+
+**Langkah 1:** Buka Windows cmd atau PowerShell di folder printer02
+```
+cd d:\Aveva Projects\print_barcode\print_barcode_python\ws\KodeArduinoUtama\printer02
+```
+
+**Langkah 2:** Jalankan troubleshoot menu
+```
+TROUBLESHOOT.bat
+```
+
+**Langkah 3:** Pilih opsi yang sesuai:
+```
+1. Run Full Diagnostic (RECOMMENDED untuk first-time)
+2. Check Printer Status & Queue
+3. Test Print Barcode
+4. Clear Printer Error
+5. View Error Log
+6. Reset Queue Database
+7. Test MQTT Connection
+8. Show System Info
+9. Open Troubleshooting Guide
+```
+
+**Langkah 4:** Follow recommendations dari diagnostic
+
+---
+
+## 🎯 Solusi Cepat untuk Error Umum
+
+### "Print command return 1/error" (tidak ada output)
+```batch
+TROUBLESHOOT.bat
+→ Option 1: Run Full Diagnostic
+→ Lihat TEST 4 & TEST 5
+→ Follow recommendations
+```
+
+### "DLL tidak bisa di-load"
+```batch
+TROUBLESHOOT.bat
+→ Option 1: Run Full Diagnostic
+→ Lihat TEST 1 & TEST 2
+→ Install Visual C++ Runtime atau update path di mqtt_config.ini
+```
+
+### "Printer tidak terdeteksi"
+```batch
+TROUBLESHOOT.bat
+→ Option 1: Run Full Diagnostic
+→ Lihat TEST 4 & TEST 7
+→ Check USB cable, power printer, install driver
+```
+
+### "Queue penuh dengan pending"
+```batch
+TROUBLESHOOT.bat
+→ Option 2: Check Printer Status & Queue
+→ Lihat berapa banyak pending
+→ Run Option 3 atau 4 untuk fix
+```
+
+---
+
+## 📊 Test Results Interpretation
+
+| Test | Pass | Fail | Action |
+|------|------|------|--------|
+| 1: DLL Path | ✓ DLL ditemukan | ✗ DLL tidak ada | Update path di mqtt_config.ini |
+| 2: Load DLL | ✓ DLL loaded | ✗ Load gagal | Install VC++ Runtime |
+| 3: Functions | ✓ Fungsi ada | ⚠ Some missing | Usually OK |
+| 4: Connection | ✓ Printer ready | ✗ Not connected | Check USB, power, driver |
+| 5: Print Test | ✓ Printed | ✗ Failed | Check paper, error, head |
+| 6: MQTT | ✓ Connected | ✗ Failed | Check internet, firewall |
+| 7: USB | ℹ Info only | - | Use for reference |
+| 8: Permissions | ✓ OK | ✗ Denied | Run as Administrator |
+
+---
+
+## 🔧 Komputer dengan Printer Berbeda
+
+Jika printer di komputer lain (tidak d:\Aveva Projects\...):
+
+**Langkah 1:** Copy semua file ke folder baru
+```powershell
+xcopy "d:\Aveva Projects\print_barcode\print_barcode_python\ws\KodeArduinoUtama\printer02" "C:\MyPrinterFolder" /E /I
+```
+
+**Langkah 2:** Edit `mqtt_config.ini` untuk path baru
+```ini
+[PRINTER]
+DLL_PATH=C:\MyPrinterFolder\Msprintsdk.dll
+
+[LOGGING]
+LOG_FILE=C:\MyPrinterFolder\mqtt_printer.log
+```
+
+**Langkah 3:** Jalankan diagnostic
+```batch
+cd C:\MyPrinterFolder
+TROUBLESHOOT.bat
+```
+
+---
+
+## 📞 Sharing Diagnostic Results
+
+Jika butuh bantuan, kumpulkan:
+
+```batch
+REM Run diagnostic
+RUN_DIAGNOSTIC.bat > diagnostic_results.txt 2>&1
+
+REM Check status
+CHECK_STATUS.bat > queue_status.txt 2>&1
+
+REM Copy log
+copy mqtt_printer.log mqtt_printer_log.txt
+
+REM Copy config (remove passwords!)
+copy mqtt_config.ini mqtt_config.ini.bak
+```
+
+Share semua `.txt` files + config ke support.
+
+---
+
+## ⚠️ Emergency Commands
+
+```batch
+REM Clear queue database (if corrupted)
+del print_queue.db
+
+REM Restart printer driver
+powershell -Command "Get-PnpDevice -Class 'Printer' | Restart-PnpDevice -Force"
+
+REM Check COM ports
+powershell -Command "Get-PnpDevice -Class Ports"
+
+REM View MQTT config
+type mqtt_config.ini
+
+REM View latest errors
+type mqtt_printer.log | findstr "ERROR"
+```
+
+---
+
+## 📞 Support Checklist
+
+Sebelum hubungi support:
+- [ ] Sudah jalankan TROUBLESHOOT.bat
+- [ ] Sudah ikuti recommendations
+- [ ] Printer sudah di-restart
+- [ ] Komputer sudah di-restart
+- [ ] USB cable dicek
+- [ ] Driver printer sudah di-install
+- [ ] Config file sudah di-periksa
+
+Jika masih gagal:
+- [ ] Kumpulkan diagnostic output
+- [ ] Share ke support dengan file attach
+
+---
+
+**Dibuat:** 2026-02-03  
+**Status:** Ready untuk production  
+**Version:** 1.0  
