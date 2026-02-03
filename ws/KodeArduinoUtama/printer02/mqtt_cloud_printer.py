@@ -18,6 +18,8 @@ import time
 import socket
 import uuid
 import configparser
+import sqlite3
+import traceback
 from datetime import datetime
 from ctypes import *
 from pathlib import Path
@@ -79,6 +81,160 @@ logger.addHandler(file_handler)
 logger.addHandler(console_handler)
 
 # ========================================================================
+# QUEUE & PERSISTENCE SETUP
+# ========================================================================
+
+QUEUE_DB_PATH = os.path.join(os.path.dirname(__file__), "print_queue.db")
+
+class PrintQueue:
+    """Manager untuk antrian print dengan persistent storage"""
+    
+    def __init__(self, db_path):
+        self.db_path = db_path
+        self.init_db()
+    
+    def init_db(self):
+        """Inisialisasi database"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS print_queue (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    barcode TEXT NOT NULL,
+                    product TEXT,
+                    line TEXT,
+                    status TEXT DEFAULT 'pending',
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    attempted_count INTEGER DEFAULT 0,
+                    last_error TEXT
+                )
+            ''')
+            
+            conn.commit()
+            conn.close()
+            logger.info(f"Queue database initialized: {self.db_path}")
+        except Exception as e:
+            logger.error(f"Failed to init queue database: {str(e)}")
+    
+    def add_to_queue(self, barcode, product, line):
+        """Tambah item ke antrian"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                INSERT INTO print_queue (barcode, product, line, status)
+                VALUES (?, ?, ?, 'pending')
+            ''', (barcode, product, line))
+            
+            conn.commit()
+            queue_id = cursor.lastrowid
+            conn.close()
+            
+            logger.info(f"✅ Added to queue (ID: {queue_id}): {barcode}")
+            return queue_id
+        except Exception as e:
+            logger.error(f"Failed to add to queue: {str(e)}")
+            return None
+    
+    def get_pending_queue(self):
+        """Ambil semua item yang pending"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                SELECT id, barcode, product, line, attempted_count
+                FROM print_queue
+                WHERE status = 'pending'
+                ORDER BY created_at ASC
+                LIMIT 50
+            ''')
+            
+            rows = cursor.fetchall()
+            conn.close()
+            
+            return [dict(row) for row in rows]
+        except Exception as e:
+            logger.error(f"Failed to get pending queue: {str(e)}")
+            return []
+    
+    def mark_as_printed(self, queue_id):
+        """Tandai item sebagai sudah tercetak"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                UPDATE print_queue
+                SET status = 'printed'
+                WHERE id = ?
+            ''', (queue_id,))
+            
+            conn.commit()
+            conn.close()
+            
+            logger.info(f"✅ Queue item {queue_id} marked as printed")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to mark as printed: {str(e)}")
+            return False
+    
+    def mark_as_failed(self, queue_id, error_msg):
+        """Tandai item sebagai gagal (dengan limit retry)"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                UPDATE print_queue
+                SET attempted_count = attempted_count + 1,
+                    last_error = ?,
+                    status = CASE
+                        WHEN attempted_count >= 5 THEN 'failed'
+                        ELSE 'pending'
+                    END
+                WHERE id = ?
+            ''', (error_msg, queue_id))
+            
+            conn.commit()
+            conn.close()
+            
+            logger.warning(f"Queue item {queue_id} retry (error: {error_msg[:50]})")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to mark as failed: {str(e)}")
+            return False
+    
+    def get_queue_stats(self):
+        """Ambil statistik antrian"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cursor.execute('SELECT COUNT(*) FROM print_queue WHERE status = "pending"')
+            pending = cursor.fetchone()[0]
+            
+            cursor.execute('SELECT COUNT(*) FROM print_queue WHERE status = "printed"')
+            printed = cursor.fetchone()[0]
+            
+            cursor.execute('SELECT COUNT(*) FROM print_queue WHERE status = "failed"')
+            failed = cursor.fetchone()[0]
+            
+            conn.close()
+            
+            return {"pending": pending, "printed": printed, "failed": failed}
+        except Exception as e:
+            logger.error(f"Failed to get stats: {str(e)}")
+            return {"pending": 0, "printed": 0, "failed": 0}
+
+# Initialize queue manager
+print_queue = PrintQueue(QUEUE_DB_PATH)
+
+# ========================================================================
 # GLOBAL VARIABLES
 # ========================================================================
 
@@ -86,6 +242,7 @@ mqtt_client = None
 printer_dll = None
 is_connected = False
 is_printer_ready = False
+queue_processing_active = False
 
 # ========================================================================
 # MQTT CLIENT ID
@@ -97,6 +254,69 @@ def build_unique_client_id(base_client_id: str) -> str:
     pid = os.getpid()
     suffix = uuid.uuid4().hex[:6]
     return f"{base_client_id}_{host}_{pid}_{suffix}"
+
+# ========================================================================
+# QUEUE PROCESSING
+# ========================================================================
+
+def process_print_queue():
+    """Proses antrian print jika printer siap"""
+    global queue_processing_active
+    
+    if queue_processing_active:
+        return
+    
+    queue_processing_active = True
+    
+    try:
+        if not is_printer_ready:
+            logger.debug("Printer not ready, skipping queue processing")
+            queue_processing_active = False
+            return
+        
+        pending = print_queue.get_pending_queue()
+        
+        if not pending:
+            logger.debug("No pending items in queue")
+            queue_processing_active = False
+            return
+        
+        logger.info(f"Processing queue: {len(pending)} pending items")
+        
+        for item in pending:
+            queue_id = item['id']
+            barcode = item['barcode']
+            product = item['product']
+            line = item['line']
+            attempted = item['attempted_count']
+            
+            logger.info(f"Processing queue item {queue_id} (attempt {attempted + 1})")
+            
+            # Cetak barcode
+            success = cetakBarcode01(barcode, product, line)
+            
+            if success:
+                print_queue.mark_as_printed(queue_id)
+                publish_status("success", 
+                              f"Queue item {queue_id}: Barcode '{barcode}' berhasil dicetak",
+                              barcode=barcode, product=product, line=line, from_queue=True)
+            else:
+                print_queue.mark_as_failed(queue_id, "Print failed")
+                
+                if attempted + 1 >= 5:
+                    publish_status("error",
+                                  f"Queue item {queue_id}: Max retry reached untuk '{barcode}'",
+                                  barcode=barcode)
+                    logger.error(f"Queue item {queue_id} abandoned after 5 attempts")
+        
+        # Publish queue stats
+        stats = print_queue.get_queue_stats()
+        logger.info(f"Queue stats - Pending: {stats['pending']}, Printed: {stats['printed']}, Failed: {stats['failed']}")
+        
+    except Exception as e:
+        logger.error(f"Error processing queue: {str(e)}")
+    finally:
+        queue_processing_active = False
 
 # ========================================================================
 # PRINTER FUNCTIONS (dari printer02.py)
@@ -386,7 +606,7 @@ def on_message(client, userdata, msg):
 # ========================================================================
 
 def handle_barcode_print(payload):
-    """Handle print request"""
+    """Handle print request - dengan queue fallback"""
     barcode = payload.get("barcode", "").strip()
     product = payload.get("product", "").strip()
     line = payload.get("line", "").strip()
@@ -399,19 +619,30 @@ def handle_barcode_print(payload):
     
     logger.info(f"Print request - Barcode: {barcode}, Product: {product}, Line: {line}")
     
-    # Cetak barcode
-    success = cetakBarcode01(barcode, product, line)
-    
-    # Publish status
-    if success:
-        message = f"Barcode '{barcode}' berhasil dicetak"
-        publish_status("success", message, barcode=barcode, product=product, line=line)
+    # Jika printer siap, langsung cetak
+    if is_printer_ready:
+        success = cetakBarcode01(barcode, product, line)
+        
+        if success:
+            message = f"Barcode '{barcode}' berhasil dicetak"
+            publish_status("success", message, barcode=barcode, product=product, line=line)
+        else:
+            # Jika cetak gagal, tambah ke queue
+            logger.warning(f"Print failed, adding to queue: {barcode}")
+            queue_id = print_queue.add_to_queue(barcode, product, line)
+            publish_status("warning", 
+                          f"Print failed, added to queue (ID: {queue_id})",
+                          barcode=barcode, queue_id=queue_id)
     else:
-        message = f"Gagal mencetak barcode '{barcode}'"
-        publish_status("error", message, barcode=barcode)
+        # Jika printer tidak siap, langsung ke queue
+        logger.warning(f"Printer not ready, adding to queue: {barcode}")
+        queue_id = print_queue.add_to_queue(barcode, product, line)
+        publish_status("warning",
+                      f"Printer not ready, queued (ID: {queue_id})",
+                      barcode=barcode, queue_id=queue_id)
 
 def handle_command(payload):
-    """Handle command"""
+    """Handle command - dengan queue management"""
     command = payload.get("command", "").lower()
     
     logger.info(f"Command received: {command}")
@@ -419,12 +650,22 @@ def handle_command(payload):
     if command == "init":
         if init_printer():
             publish_status("success", "Printer inisialisasi ulang berhasil")
+            # Langsung proses queue setelah init berhasil
+            time.sleep(1)
+            process_print_queue()
         else:
             publish_status("error", "Gagal inisialisasi printer")
     
     elif command == "status":
-        status = "ready" if is_printer_ready else "not_ready"
-        publish_status("info", f"Printer status: {status}")
+        stats = print_queue.get_queue_stats()
+        status_msg = f"Printer: {'ready' if is_printer_ready else 'not ready'}, Queue: {stats['pending']} pending, {stats['printed']} printed, {stats['failed']} failed"
+        publish_status("info", status_msg)
+    
+    elif command == "process_queue":
+        logger.info("Manual queue processing requested")
+        process_print_queue()
+        stats = print_queue.get_queue_stats()
+        publish_status("info", f"Queue processed. Pending: {stats['pending']}, Printed: {stats['printed']}")
     
     elif command == "stop":
         logger.info("Stop command received")
@@ -463,7 +704,7 @@ def main():
     
     print("")
     print("="*70)
-    print("MQTT BARCODE PRINTER SERVICE - CLOUD BROKER")
+    print("MQTT BARCODE PRINTER SERVICE - CLOUD BROKER WITH QUEUE")
     print("="*70)
     print("")
     
@@ -471,6 +712,7 @@ def main():
     logger.info(f"Topic Input: {TOPIC_BARCODE_INPUT}")
     logger.info(f"Topic Status: {TOPIC_STATUS_OUTPUT}")
     logger.info(f"DLL Path: {DLL_PATH}")
+    logger.info(f"Queue DB: {QUEUE_DB_PATH}")
     print("")
     
     # Load DLL
@@ -525,17 +767,29 @@ def main():
     
     print("")
     print("="*70)
-    print("✅ SERVICE RUNNING")
+    print("✅ SERVICE RUNNING WITH QUEUE PERSISTENCE")
     print("="*70)
     print(f"Waiting for messages from Node-RED...")
     print(f"Topic: {TOPIC_BARCODE_INPUT}")
+    print(f"Queue Database: {QUEUE_DB_PATH}")
     print("")
     print("Press Ctrl+C to stop...")
     print("")
     
     try:
+        # Queue processing loop
+        last_queue_check = time.time()
+        queue_check_interval = 10  # Cek queue setiap 10 detik
+        
         while True:
             time.sleep(1)
+            
+            # Cek queue periodically
+            current_time = time.time()
+            if current_time - last_queue_check >= queue_check_interval:
+                process_print_queue()
+                last_queue_check = current_time
+    
     except KeyboardInterrupt:
         logger.info("\nShutting down...")
         mqtt_client.loop_stop()
